@@ -1,0 +1,4 @@
+export enum FehlerseiteGrund {
+    UNGUELTIGE_ROUTE = 'UNGUELTIGE_ROUTE',
+    VORGANG_ID_FEHLT = 'VORGANG_ID_FEHLT'
+}

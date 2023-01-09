@@ -1,0 +1,7 @@
+export enum VorgangStatus {
+    ZWISCHENGESPEICHERT = 'ZWISCHENGESPEICHERT',
+    EINGEREICHT         = 'EINGEREICHT',
+    GENEHMIGT           = 'GENEHMIGT',
+    ABGELEHNT           = 'ABGELEHNT',
+    ABGESCHLOSSEN       = 'ABGESCHLOSSEN',
+}
