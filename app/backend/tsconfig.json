@@ -6,6 +6,9 @@
         "esModuleInterop" : true,
         "strict" : true,
         "experimentalDecorators" : true,
-        "resolveJsonModule" : true
+        "resolveJsonModule" : true,
+        "lib": [
+            "esnext"
+        ]
     }
 }

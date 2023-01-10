@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 
 import { VorgangBearbeitenSchritt } from '@tom/models';
 
-import { UrlService } from '../../../shared/services/url.service';
+import { UrlService }               from '../../../shared/services/url.service';
+import { VorgangBearbeitenService } from '../../services/vorgang-bearbeiten.service';
 
 @Component( {
     styles   : [
@@ -10,7 +11,6 @@ import { UrlService } from '../../../shared/services/url.service';
             .container {
                 height : 100%;
             }
-        
         `
     ],
     template : `
@@ -21,7 +21,7 @@ import { UrlService } from '../../../shared/services/url.service';
                 <!--        errors etc can go hiere-->
                 <!--    </div>-->
 
-                <div slot="center-left" style="height: 100%; background-color: rgba(94,174,225,0.4)">
+                <div slot="center-left">
                     <ul>
                         <li><a [routerLink]="getRouteTo(Schritt.MITARBEITER_AUSWAHL)">MITARBEITER_AUSWAHL</a></li>
                         <li><a [routerLink]="getRouteTo(Schritt.BKZ_AUSWAHL)">BKZ_AUSWAHL</a></li>
@@ -45,11 +45,12 @@ export class SeitenLayout {
     Schritt = VorgangBearbeitenSchritt;
     
     constructor(
+        public vorgangBearbeitenService : VorgangBearbeitenService,
         public urlService : UrlService,
     ) { }
     
     getRouteTo( schritt : VorgangBearbeitenSchritt ) : string {
-        return this.urlService.routeToVorgangBearbeiten( schritt );
+        return this.urlService.routeToVorgangBearbeiten( this.vorgangBearbeitenService.getVorgangId(), schritt );
     }
     
 }

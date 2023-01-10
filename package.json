@@ -1,9 +1,9 @@
 {
-    "name"            : "angular-workflow-example",
-    "version"         : "1.0.0",
-    "description"     : "",
-    "main"            : "index.js",
-    "scripts"         : {
+    "name": "angular-workflow-example",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
         "init"                       : "npm i && run-p init:*",
         "init:models"                : "cd app/models && npm i",
         "init:backend"               : "cd app/backend && npm i",
@@ -26,11 +26,11 @@
         "build:models"               : "cd app/models && npm run build",
         "build:frontend"             : "cd app/frontend && npm run build"
     },
-    "keywords"        : [ ],
-    "author"          : "",
-    "license"         : "ISC",
-    "devDependencies" : {
-        "concurrently" : "^7.6.0",
-        "npm-run-all"  : "^4.1.5"
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "concurrently": "^7.6.0",
+        "npm-run-all": "^4.1.5"
     }
 }

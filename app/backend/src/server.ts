@@ -1,7 +1,6 @@
 import cors    from "cors";
 import express from "express";
 import morgan  from 'morgan';
-import 'reflect-metadata';
 
 import { addRoutes } from './routes';
 import { PORT }      from './env';
@@ -25,6 +24,6 @@ app.use( express.urlencoded( { extended : false } ) );
 app.use( express.json() );
 
 app.listen( PORT, () =>
-    console.log( `MapServer running at http://localhost:${ PORT }/` )
+    console.log( `Workflow Dummy Server running at http://localhost:${ PORT }/` )
 );
 

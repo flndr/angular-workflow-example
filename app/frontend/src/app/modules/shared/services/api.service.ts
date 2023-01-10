@@ -1,8 +1,10 @@
-import { HttpClient }             from '@angular/common/http';
-import { Injectable }             from '@angular/core';
-import { VorgaengeLadenRequest }  from '@tom/models';
+import { HttpClient }     from '@angular/common/http';
+import { Injectable }     from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+
 import { VorgaengeLadenResponse } from '@tom/models';
-import { firstValueFrom }         from 'rxjs';
+import { Vorgang }                from '@tom/models';
+import { ApiUrl }                 from '@tom/models';
 
 @Injectable( {
     providedIn : 'root'
@@ -13,12 +15,14 @@ export class ApiService {
     
     constructor( private http : HttpClient ) {}
     
-    public async vorgaengeLaden() : Promise<VorgaengeLadenResponse> {
-        const res = await firstValueFrom( this.http.get( this.baseUrl + '/vorgaenge' ) );
-        console.log(res);
-        return {
-            vorgaenge : []
-        };
+    public async getVorgaenge() : Promise<Vorgang[]> {
+        const res = await this.get<VorgaengeLadenResponse>( ApiUrl.VORGAENGE );
+        return res.vorgaenge;
+    }
+    
+    private async get<M>( url : string ) : Promise<M> {
+        const response = await firstValueFrom( this.http.get( this.baseUrl + url ) );
+        return response as unknown as M;
     }
     
 }

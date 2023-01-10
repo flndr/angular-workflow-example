@@ -1,5 +1,10 @@
+import { ApiUrl }                 from "./api/ApiUrl";
 import { VorgaengeLadenRequest }  from "./api/VorgaengeLadenRequest";
 import { VorgaengeLadenResponse } from "./api/VorgaengeLadenResponse";
+import { VorgangLadenResponse }   from "./api/VorgangLadenResponse";
+import { VorgangAnlegenResponse } from "./api/VorgangAnlegenResponse";
+import { ErrorResponse }          from "./api/ErrorResponse";
+import { ErrorCode }              from "./api/ErrorCode";
 
 import { Abholung }                from "./models/VorgangBearbeitenSchritte/Abholung";
 import { AbholungArt }             from "./models/VorgangBearbeitenSchritte/AbholungArt";
@@ -24,8 +29,14 @@ export {
     
     helloFromModels,
     
+    ApiUrl,
+    
     VorgaengeLadenRequest,
     VorgaengeLadenResponse,
+    VorgangLadenResponse,
+    VorgangAnlegenResponse,
+    ErrorCode,
+    ErrorResponse,
     
     Abholung,
     AbholungArt,

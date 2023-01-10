@@ -1,6 +1,9 @@
-import { OnInit }     from '@angular/core';
-import { Component }  from '@angular/core';
-import { ApiService } from '../../../shared/services/api.service';
+import { OnInit }                   from '@angular/core';
+import { Component }                from '@angular/core';
+import { VorgangBearbeitenSchritt } from '@tom/models';
+import { Vorgang }                  from '@tom/models';
+import { ApiService }               from '../../../shared/services/api.service';
+import { UrlService }               from '../../../shared/services/url.service';
 
 @Component( {
     styles   : [
@@ -15,18 +18,29 @@ import { ApiService } from '../../../shared/services/api.service';
     template : `
         <div class="container">
 
-            <h1>Übersicht aller Vorgänge</h1>
+            <a *ngFor="let vorgang of vorgaenge" [routerLink]="urlService.routeToVorgangBearbeiten(vorgang.id)">
+                {{vorgang.id}}
+            </a>
 
         </div>`,
 } )
 export class VorgangUebersichtSeite implements OnInit {
     
+    Schritt = VorgangBearbeitenSchritt
+    
+    private _vorgaenge : Vorgang[] = [];
+    
     constructor(
-        public apiService : ApiService
+        public apiService : ApiService,
+        public urlService : UrlService
     ) { }
     
     public async ngOnInit() {
-        await this.apiService.vorgaengeLaden();
+        this._vorgaenge = await this.apiService.getVorgaenge();
+    }
+    
+    get vorgaenge() : Vorgang[] {
+        return this._vorgaenge;
     }
     
     //

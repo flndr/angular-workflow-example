@@ -7,8 +7,6 @@ import { VorgangBearbeitenSchritt } from '@tom/models';
 } )
 export class UrlService {
     
-    private _vorgangId : string | null = null;
-    
     static MODUL_URL = {
         VORGANG_UEBERSICHT      : '',
         VORGANG_BEARBEITEN      : 'vorgang-bearbeiten',
@@ -22,7 +20,9 @@ export class UrlService {
         FEHLER             : 'fehler',
     };
     
-    static BEARBEITUNG_SCHRITT_URL : Record<VorgangBearbeitenSchritt, string> = {
+    static ERSTER_SCHRITT : VorgangBearbeitenSchritt = VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL;
+    
+    static BEARBEITUNG_SCHRITT_URL : Record<Partial<VorgangBearbeitenSchritt>, string> = {
         [ VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL ]   : 'mitarbeiter',
         [ VorgangBearbeitenSchritt.ABHOLUNG ]              : 'abholung',
         [ VorgangBearbeitenSchritt.BKZ_AUSWAHL ]           : 'bkz-auswahl',
@@ -31,24 +31,15 @@ export class UrlService {
         [ VorgangBearbeitenSchritt.LIEFERANSCHRIFT ]       : 'lieferung',
         [ VorgangBearbeitenSchritt.STANDARD_HARDWARE ]     : 'standard-hardware',
         [ VorgangBearbeitenSchritt.ABSCHLUSS ]             : 'abschluss',
-    }
+    };
     
-    setVorgangId( id : string ) : void {
-        this._vorgangId = id;
-    }
-    
-    getVorgangId() : string {
-        if ( !this._vorgangId ) {
-            throw new Error( 'VorgangID wurde noch nicht gesetzt!' );
-        }
-        return this._vorgangId;
-    }
-    
-    routeToVorgangBearbeiten( schritt : VorgangBearbeitenSchritt, vorgangId ? : string ) : string {
+    routeToVorgangBearbeiten( vorgangId : string, schritt ? : VorgangBearbeitenSchritt ) : string {
         return '/' + [
             UrlService.SEITEN_URL.VORGANG_BEARBEITEN,
-            vorgangId || this.getVorgangId(),
-            UrlService.BEARBEITUNG_SCHRITT_URL[ schritt ],
+            vorgangId,
+            schritt
+            ? UrlService.BEARBEITUNG_SCHRITT_URL[ schritt ]
+            : UrlService.BEARBEITUNG_SCHRITT_URL[ UrlService.ERSTER_SCHRITT ],
         ].join( '/' );
     }
     

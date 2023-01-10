@@ -1,11 +1,13 @@
 import { Response } from 'express';
 import { Express }  from 'express';
 
-import { ApiError }           from './errors/ApiError';
+import { ApiUrl } from '@tom/models';
+
+import { ApiError }         from './errors/ApiError';
 import { ExcelParserError } from './errors/ExcelParserErrors';
 import { ApiController }    from './services/ApiController';
 
-const apiService = new ApiController();
+const apiController = new ApiController();
 
 const returnError = ( res : Response, e : Error | any ) => {
     let status  = 500;
@@ -20,6 +22,6 @@ const returnError = ( res : Response, e : Error | any ) => {
 }
 
 export const addRoutes = ( app : Express ) => {
-    
-    app.get( '/vorgaenge', apiService.vorgaengeLaden );
+    app.get( ApiUrl.VORGAENGE, apiController.vorgaengeLaden.bind(apiController) );
+    app.get( ApiUrl.vorgangUrl(), apiController.vorgangLaden.bind(apiController) );
 }

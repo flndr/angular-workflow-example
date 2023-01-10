@@ -20,7 +20,7 @@ import { DebugService } from './modules/shared/services/debug.service';
             </div>
 
             <div slot="top">
-                <span>Angular Complex Form Example</span>
+                <app-headcrumb></app-headcrumb>
             </div>
 
             <!--    <div slot="center-left" style="height: 100%; background-color: rgba(94,174,225,0.4)">-->
