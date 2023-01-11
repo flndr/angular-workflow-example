@@ -1,3 +1,4 @@
+import { VorgangSpeichernRequest }  from '@tom/models';
 import { v4 as uuid }               from 'uuid';
 import { VorgangAnlegenResponse }   from '@tom/models';
 import { ErrorCode }                from '@tom/models';
@@ -12,22 +13,41 @@ import { Request }                  from '../models/Request';
 
 import { Response } from '../models/Response';
 
+const id1 = '12345678-1111-uuid-1234-test-vorgang';
+const id2 = '12345678-2222-uuid-1234-test-vorgang';
+const id3 = '12345678-3333-uuid-1234-test-vorgang';
+const id4 = '12345678-4444-uuid-1234-test-vorgang';
+const id5 = '12345678-5555-uuid-1234-test-vorgang';
+
 export class ApiController {
     
     private vorgange : Record<string, Vorgang> = {
-        'oh-hello'           : {
+        [ id1 ] : {
             ...neuerVorgang(),
-            id : 'oh-hello'
+            id     : id1,
+            status : VorgangStatus.ABGESCHLOSSEN
         },
-        'aaaand-another-one' : {
+        [ id2 ] : {
             ...neuerVorgang(),
-            id : 'aaaand-another-one'
+            id     : id2,
+            status : VorgangStatus.GENEHMIGT
+        },
+        [ id3 ] : {
+            ...neuerVorgang(),
+            id     : id3,
+            status : VorgangStatus.ABGELEHNT
+        },
+        [ id4 ] : {
+            ...neuerVorgang(),
+            id     : id4,
+            status : VorgangStatus.ZWISCHENGESPEICHERT
+        },
+        [ id5 ] : {
+            ...neuerVorgang(),
+            id     : id5,
+            status : VorgangStatus.EINGEREICHT
         }
     };
-    
-    constructor() {
-        console.log( 'ApiController constructed', uuid() );
-    }
     
     public vorgaengeLaden(
         req : Request<{}>,
@@ -70,6 +90,35 @@ export class ApiController {
         }
     }
     
+    public vorgangSpeichern(
+        req : Request<VorgangSpeichernRequest>,
+        res : Response<{} | ErrorResponse>
+    ) {
+        try {
+            const vorgangId = req.params[ ApiUrl.vorgangIdParam ];
+            
+            if ( !vorgangId ) {
+                return res.status( 400 ).jsonp( {
+                    code : ErrorCode.VORGANG_ID_FEHLT,
+                } );
+            }
+            
+            if ( !this.vorgange.hasOwnProperty( vorgangId ) ) {
+                return res.status( 404 ).jsonp( {
+                    code : ErrorCode.VORGANG_NICHT_GEFUNDEN,
+                } );
+            }
+            
+            this.vorgange[ vorgangId ].schritte = req.body.schritte;
+            
+            return res.status( 204 ).jsonp( {} );
+            
+        } catch ( e ) {
+            console.log( e );
+            return res.status( 500 ).jsonp( {} );
+        }
+    }
+    
     public vorgangAnlegen(
         req : Request<{}>,
         res : Response<VorgangAnlegenResponse | ErrorResponse>
@@ -96,9 +145,10 @@ export class ApiController {
 function neuerVorgang() : Vorgang {
     return {
         id                   : '',
+        titel                : 'Neuer Vorgang',
         erstellerKuerzel     : 'TFL',
         erstellungszeitpunkt : 'halber',
-        status               : VorgangStatus.EINGEREICHT,
+        status               : VorgangStatus.ZWISCHENGESPEICHERT,
         schritte             : {
             [ VorgangBearbeitenSchritt.ABHOLUNG ] : {
                 abholungArt : null
@@ -127,7 +177,7 @@ function neuerVorgang() : Vorgang {
             },
             
             [ VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL ] : {
-                kuerzel : null
+                kuerzel : ''
             },
             
             [ VorgangBearbeitenSchritt.STANDARD_HARDWARE ] : {

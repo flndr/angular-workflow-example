@@ -1,4 +1,4 @@
-export interface StandardHardwareAuswahl {
+export class StandardHardwareAuswahl {
     artikel : Array<string>;
 }
 

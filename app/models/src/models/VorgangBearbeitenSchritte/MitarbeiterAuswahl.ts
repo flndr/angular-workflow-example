@@ -1,3 +1,3 @@
-export interface MitarbeiterAuswahl {
+export class MitarbeiterAuswahl {
     kuerzel : string | null;
 }

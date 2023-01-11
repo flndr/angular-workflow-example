@@ -1,3 +1,4 @@
+import { AbholungArt }                from '@tom/models';
 import { VorgangBearbeitenSchritt }   from '@tom/models';
 import { VorgangSchritteValidations } from './models/VorgangSchritteValidations';
 
@@ -6,7 +7,7 @@ export const vorgangSchritteDefaultData : VorgangSchritteValidations = {
     isManager : false,
     
     [ VorgangBearbeitenSchritt.ABHOLUNG ] : {
-        abholungArt : null
+        abholungArt : AbholungArt.KURIER
     },
     
     [ VorgangBearbeitenSchritt.BKZ_AUSWAHL ] : {

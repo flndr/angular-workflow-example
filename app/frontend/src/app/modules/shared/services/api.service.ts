@@ -1,10 +1,14 @@
-import { HttpClient }     from '@angular/common/http';
-import { Injectable }     from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { HttpClient }               from '@angular/common/http';
+import { Injectable }               from '@angular/core';
+import { VorgangLadenResponse }     from '@tom/models';
+import { VorgangBearbeitenSchritt } from '@tom/models';
+import { firstValueFrom }           from 'rxjs';
 
-import { VorgaengeLadenResponse } from '@tom/models';
-import { Vorgang }                from '@tom/models';
-import { ApiUrl }                 from '@tom/models';
+import { VorgangSchritte }         from '@tom/models';
+import { VorgaengeLadenResponse }  from '@tom/models';
+import { VorgangSpeichernRequest } from '@tom/models';
+import { Vorgang }                 from '@tom/models';
+import { ApiUrl }                  from '@tom/models';
 
 @Injectable( {
     providedIn : 'root'
@@ -15,14 +19,37 @@ export class ApiService {
     
     constructor( private http : HttpClient ) {}
     
-    public async getVorgaenge() : Promise<Vorgang[]> {
+    public async vorgaengeLaden() : Promise<Vorgang[]> {
         const res = await this.get<VorgaengeLadenResponse>( ApiUrl.VORGAENGE );
         return res.vorgaenge;
     }
     
-    private async get<M>( url : string ) : Promise<M> {
+    public async vorgangLaden( vorgangId : string ) : Promise<Vorgang> {
+        return await this.get<VorgangLadenResponse>( ApiUrl.vorgangUrl( vorgangId ) );
+    }
+    
+    public async vorgangSpeichern(
+        vorgangId : string,
+        schritte : VorgangSchritte,
+        aktiverSchritt : VorgangBearbeitenSchritt
+    ) : Promise<void> {
+        await this.post<{}, VorgangSpeichernRequest>(
+            ApiUrl.vorgangUrl( vorgangId ),
+            {
+                schritte,
+                aktiverSchritt
+            }
+        );
+    }
+    
+    private async get<Response>( url : string ) : Promise<Response> {
         const response = await firstValueFrom( this.http.get( this.baseUrl + url ) );
-        return response as unknown as M;
+        return response as unknown as Response;
+    }
+    
+    private async post<Response, Request>( url : string, body : Request ) : Promise<Response> {
+        const response = await firstValueFrom( this.http.post( this.baseUrl + url, body ) );
+        return response as unknown as Response;
     }
     
 }

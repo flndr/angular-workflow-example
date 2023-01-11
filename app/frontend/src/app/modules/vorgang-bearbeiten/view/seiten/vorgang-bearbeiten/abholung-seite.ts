@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
+import { Abholung }                 from '@tom/models';
 import { VorgangBearbeitenSchritt } from '@tom/models';
-import { MitarbeiterAuswahl }       from '@tom/models';
 
 import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
 
@@ -15,7 +15,7 @@ import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
         <form [formGroup]="formGroup">
 
             <div class="mb-3">
-                <app-text-field [control]="fields.kuerzel" label="Kürzel"></app-text-field>
+                <app-text-field [control]="fields.abholungArt" label="Art der Abholung"></app-text-field>
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
@@ -26,10 +26,10 @@ import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
 
         </form>`,
 } )
-export class MitarbeiterAuswahlSeite extends VorgangBearbeitenSeite<MitarbeiterAuswahl> {
+export class AbholungSeite extends VorgangBearbeitenSeite<Abholung> {
     
-    override formular         = MitarbeiterAuswahl;
-    override dieserSchritt    = VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL;
-    override naechsterSchritt = VorgangBearbeitenSchritt.BKZ_AUSWAHL;
+    override formular         = Abholung;
+    override dieserSchritt    = VorgangBearbeitenSchritt.ABHOLUNG;
+    override naechsterSchritt = VorgangBearbeitenSchritt.LIEFERANSCHRIFT;
     
 }

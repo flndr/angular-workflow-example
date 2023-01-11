@@ -13,8 +13,7 @@ import { UrlService } from '../services/url.service';
             <h1 *ngIf="!site">Übersicht aller Vorgänge</h1>
             <h1 *ngIf="site">
                 <a [routerLink]="MODUL_URL.VORGANG_UEBERSICHT">Übersicht</a>
-                -->
-                {{site}}
+                --> {{site}}
             </h1>
         </div>`,
 } )

@@ -1,33 +1,81 @@
-import { OnInit }                   from '@angular/core';
-import { Component }                from '@angular/core';
-import { VorgangBearbeitenSchritt } from '@tom/models';
-import { Vorgang }                  from '@tom/models';
-import { ApiService }               from '../../../shared/services/api.service';
-import { UrlService }               from '../../../shared/services/url.service';
+import { OnInit }    from '@angular/core';
+import { Component } from '@angular/core';
+
+import { Vorgang } from '@tom/models';
+
+import { ApiService } from '../../../shared/services/api.service';
+import { UrlService } from '../../../shared/services/url.service';
 
 @Component( {
     styles   : [
         `
-            .container {
-                height : 100%;
+            .table td {
+                vertical-align : middle;
             }
-        
+
+            .table td:last-child {
+                text-align : right;
+            }
         
         `
     ],
     template : `
         <div class="container">
 
-            <a *ngFor="let vorgang of vorgaenge" [routerLink]="urlService.routeToVorgangBearbeiten(vorgang.id)">
-                {{vorgang.id}}
-            </a>
+            <h1>Übersicht aller Vorgänge</h1>
 
+            <div class="spinner-border mt-5" role="status" *ngIf="isLoading">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+
+            <div *ngIf="!isLoading">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Titel</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Ersteller</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let vorgang of vorgaenge; index as i">
+                        <td>
+                            {{ i + 1 }}
+                        </td>
+                        <td>
+                            <strong>{{ vorgang.titel }}</strong>
+                        </td>
+                        <td>
+                            <app-status-badge [status]="vorgang.status"></app-status-badge>
+                        </td>
+                        <td>
+                            {{ vorgang.id }}
+                        </td>
+                        <td>
+                            {{ vorgang.erstellerKuerzel }}
+                        </td>
+                        <td>
+                            <a class="btn btn-primary"
+                               [routerLink]="urlService.routeToVorgangBearbeiten(vorgang.id)">
+                                bearbeiten
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <button class="btn btn-primary">neuen Vorgang anlegen</button>
+            </div>
         </div>`,
 } )
 export class VorgangUebersichtSeite implements OnInit {
     
-    Schritt = VorgangBearbeitenSchritt
-    
+    private _isLoading : boolean   = true;
     private _vorgaenge : Vorgang[] = [];
     
     constructor(
@@ -36,20 +84,15 @@ export class VorgangUebersichtSeite implements OnInit {
     ) { }
     
     public async ngOnInit() {
-        this._vorgaenge = await this.apiService.getVorgaenge();
+        this._vorgaenge = await this.apiService.vorgaengeLaden();
+        this._isLoading = false;
     }
     
-    get vorgaenge() : Vorgang[] {
+    get vorgaenge() {
         return this._vorgaenge;
     }
     
-    //
-    //debugValidation() : string {
-    //    return JSON.stringify( this.dynamicForm.validation, null, 2 );
-    //}
-    //
-    //debugValues() : string {
-    //    return JSON.stringify( this.dynamicForm.formData, null, 2 );
-    //}
-    
+    get isLoading() {
+        return this._isLoading;
+    }
 }

@@ -1,27 +1,33 @@
-import { Response } from 'express';
-import { Express }  from 'express';
+import { Express }      from 'express';
+import { Request }      from 'express';
+import { Response }     from 'express';
+import { NextFunction } from 'express-serve-static-core';
 
 import { ApiUrl } from '@tom/models';
 
-import { ApiError }         from './errors/ApiError';
-import { ExcelParserError } from './errors/ExcelParserErrors';
-import { ApiController }    from './services/ApiController';
+import { ApiController } from './services/ApiController';
 
 const apiController = new ApiController();
 
-const returnError = ( res : Response, e : Error | any ) => {
-    let status  = 500;
-    let message = 'Something went wrong';
-    if ( e instanceof ExcelParserError || e instanceof ApiError ) {
-        status = 400;
-    }
-    if ( e instanceof Error ) {
-        message = e.message;
-    }
-    res.status( status ).jsonp( { message } );
+const simulateSlowBackend = async ( req : Request, res : Response, next : NextFunction ) => {
+    await pause( between( 10, 50 ) );
+    next();
 }
 
 export const addRoutes = ( app : Express ) => {
-    app.get( ApiUrl.VORGAENGE, apiController.vorgaengeLaden.bind(apiController) );
-    app.get( ApiUrl.vorgangUrl(), apiController.vorgangLaden.bind(apiController) );
+    app.get( ApiUrl.VORGAENGE, simulateSlowBackend, apiController.vorgaengeLaden.bind( apiController ) );
+    
+    app.get( ApiUrl.vorgangUrl(), simulateSlowBackend, apiController.vorgangLaden.bind( apiController ) );
+    app.post( ApiUrl.vorgangUrl(), simulateSlowBackend, apiController.vorgangSpeichern.bind( apiController ) );
 }
+
+function pause( ms : number ) : Promise<void> {
+    return new Promise( resolve => {
+        setTimeout( resolve, ms );
+    } );
+}
+
+function between( min : number, max : number ) : number {
+    return Math.floor( Math.random() * ( max - min + 1 ) + min )
+}
+

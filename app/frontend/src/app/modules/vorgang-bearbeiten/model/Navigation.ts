@@ -1,16 +1,19 @@
 import { VorgangBearbeitenSchritt } from '@tom/models';
 
-// Welche Informationen braucht man um ein Item darzustellen?
+// Welche Informationen braucht man um die Navigation darzustellen?
 
 export interface NavigationItem {
     // slug : string; // muss das der controller wissen? nope! das ist die verantwortung der view
     // label : string; // muss das der controller wissen? nope! das ist die verantwortung der view
-    order : number;
-    isActive : boolean;
+    // isActive : boolean;
     isVisible : boolean;
     isValid : boolean | null;
     isInvalid : boolean | null;
+    errorCount : number;
 }
+
+export type Navigation = Record<VorgangBearbeitenSchritt, NavigationItem>;
+export type NavigationForUi = Array<NavigationItem & { schritt : VorgangBearbeitenSchritt }>;
 
 // Welche Aktionen kann man durchführen?
 
@@ -21,7 +24,3 @@ export interface NavigationActions {
     
     navigateToItem( item : NavigationItem ) : Promise<void>;
 }
-
-// Welche Informationen braucht die UI noch um alles darzustellen?
-
-export type Navigation = Record<VorgangBearbeitenSchritt, NavigationItem>;

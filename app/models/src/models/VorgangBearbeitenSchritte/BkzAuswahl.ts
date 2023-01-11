@@ -1,3 +1,3 @@
-export interface BkzAuswahl {
+export class BkzAuswahl {
     bkz : string | null;
 }

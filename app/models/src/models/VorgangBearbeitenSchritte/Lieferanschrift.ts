@@ -1,4 +1,4 @@
-export interface Lieferanschrift {
+export class Lieferanschrift {
     vorname : string | null;
     nachname : string | null;
     strasse : string | null;

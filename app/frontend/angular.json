@@ -34,7 +34,8 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-                "@tom/models"
+                "@tom/models",
+                "validator"
             ]
           },
           "configurations": {

@@ -4,11 +4,13 @@
 
     "compilerOptions" : {
         "lib"                              : [
-            "esnext", "dom"
+            "esnext",
+            "dom"
         ],
         "module"                           : "commonjs",
         "target"                           : "es2022",
         "strict"                           : true,
+        "strictPropertyInitialization"     : false,
         "esModuleInterop"                  : true,
         "skipLibCheck"                     : true,
         "forceConsistentCasingInFileNames" : true,

@@ -1,5 +1,5 @@
 import { AbholungArt } from './AbholungArt';
 
-export interface Abholung {
+export class Abholung {
     abholungArt : AbholungArt | null;
 }

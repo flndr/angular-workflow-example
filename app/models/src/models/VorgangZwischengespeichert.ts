@@ -3,5 +3,5 @@ import { VorgangBearbeitenSchritt } from './VorgangBearbeitenSchritt';
 
 export interface VorgangZwischengespeichert {
     schritte : VorgangSchritte;
-    aktiverAbschnitt : VorgangBearbeitenSchritt;
+    aktiverSchritt : VorgangBearbeitenSchritt;
 }

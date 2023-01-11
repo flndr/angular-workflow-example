@@ -27,10 +27,7 @@
     ],
     "types": [
       "@angular/localize"
-    ],
-      "paths" : {
-          "@models" : ["../models/"]
-      }
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

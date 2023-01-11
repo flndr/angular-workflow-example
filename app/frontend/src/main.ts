@@ -1,8 +1,11 @@
 import { platformBrowserDynamic }     from '@angular/platform-browser-dynamic';
+import 'reflect-metadata';
 
 import { AppModule } from './app/app.module';
 
 import { helloFromModels } from '@tom/models';
+
+
 
 helloFromModels();
 

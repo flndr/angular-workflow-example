@@ -1,8 +1,13 @@
-import { CommonModule }             from '@angular/common';
-import { HttpClientModule }         from '@angular/common/http';
-import { NgModule }                 from '@angular/core';
-import { RouterLink }               from '@angular/router';
-import { HeadcrumbComponent }       from './components/Headcrumb.component';
+import { CommonModule }        from '@angular/common';
+import { HttpClientModule }    from '@angular/common/http';
+import { NgModule }            from '@angular/core';
+import { FormsModule }         from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterLink }          from '@angular/router';
+
+import { TextFieldComponent }       from './components/text-field-component';
+import { HeadcrumbComponent }       from './components/headcrumb.component';
+import { StatusBadgeComponent }     from './components/statusbadge.component';
 import { HighlightLayoutComponent } from './components/highlight-layout.component';
 import { HolyGrailLayoutComponent } from './layouts/holy-grail-layout.component';
 
@@ -11,16 +16,22 @@ import { HolyGrailLayoutComponent } from './layouts/holy-grail-layout.component'
         HighlightLayoutComponent,
         HolyGrailLayoutComponent,
         HeadcrumbComponent,
+        StatusBadgeComponent,
+        TextFieldComponent,
     ],
     exports      : [
         HighlightLayoutComponent,
         HolyGrailLayoutComponent,
         HeadcrumbComponent,
+        StatusBadgeComponent,
+        TextFieldComponent,
     ],
-    imports : [
+    imports      : [
+        RouterLink,
+        FormsModule,
         CommonModule,
         HttpClientModule,
-        RouterLink
+        ReactiveFormsModule
     ],
     providers    : []
 } )

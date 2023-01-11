@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { NgModule }     from '@angular/core';
-import { Route }        from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { CommonModule }   from '@angular/common';
+import { NgModule }       from '@angular/core';
+import { Route }          from '@angular/router';
+import { RouterModule }   from '@angular/router';
 
 import { SharedModule }           from '../shared/shared.module';
 import { VorgangUebersichtSeite } from './view/seiten/vorgang-uebersicht-seite';

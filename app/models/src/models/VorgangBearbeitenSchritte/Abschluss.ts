@@ -1,3 +1,3 @@
-export interface Abschluss {
+export class Abschluss {
     checkboxAllesGeprueftUndBestaetigt : boolean;
 }

@@ -1,5 +1,5 @@
 import { IndividualBestellung } from './IndividualBestellung';
 
-export interface IndividualBestellungen {
+export class IndividualBestellungen {
     bestellungen : Array<IndividualBestellung>;
 }

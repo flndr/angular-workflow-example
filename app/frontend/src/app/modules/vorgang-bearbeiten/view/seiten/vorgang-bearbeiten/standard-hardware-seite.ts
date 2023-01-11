@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component }               from '@angular/core';
+import { StandardHardwareAuswahl } from '@tom/models';
 
 import { VorgangBearbeitenSchritt } from '@tom/models';
 import { BkzAuswahl }               from '@tom/models';
 
 import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
+
 
 @Component( {
     styles   : [
@@ -15,7 +17,7 @@ import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
         <form [formGroup]="formGroup">
 
             <div class="mb-3">
-                <app-text-field [control]="fields.bkz" label="BKZ"></app-text-field>
+                <app-text-field [control]="fields.artikel" label="StandardHardwareAuswahl"></app-text-field>
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
@@ -26,10 +28,10 @@ import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
 
         </form>`,
 } )
-export class BkzAuswahlSeite extends VorgangBearbeitenSeite<BkzAuswahl> {
+export class StandardHardwareSeite extends VorgangBearbeitenSeite<StandardHardwareAuswahl> {
     
-    override formular         = BkzAuswahl;
-    override dieserSchritt    = VorgangBearbeitenSchritt.BKZ_AUSWAHL;
-    override naechsterSchritt = VorgangBearbeitenSchritt.STANDARD_HARDWARE;
+    override formular         = StandardHardwareAuswahl;
+    override dieserSchritt    = VorgangBearbeitenSchritt.STANDARD_HARDWARE;
+    override naechsterSchritt = VorgangBearbeitenSchritt.INDIVIDUAL_BESTELLUNG;
     
 }

@@ -9,6 +9,10 @@ import { DebugService } from './modules/shared/services/debug.service';
             :host {
                 height : 100%;
             }
+
+            .top {
+                margin-bottom : 2rem;
+            }
         `
     ],
     template : `
@@ -19,8 +23,10 @@ import { DebugService } from './modules/shared/services/debug.service';
                 <button (click)="debugService.toggleIsHighlightingActive()">Toggle UI Highlight</button>
             </div>
 
-            <div slot="top">
-                <app-headcrumb></app-headcrumb>
+            <div slot="top" class="top bg-dark text-bg-dark">
+                <div class="container">
+                    Angular Workflow Example
+                </div>
             </div>
 
             <!--    <div slot="center-left" style="height: 100%; background-color: rgba(94,174,225,0.4)">-->
