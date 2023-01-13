@@ -18,10 +18,10 @@ import { Lieferanschrift }            from "./models/VorgangBearbeitenSchritte/L
 import { MitarbeiterAuswahl }         from "./models/VorgangBearbeitenSchritte/MitarbeiterAuswahl";
 import { StandardHardwareAuswahl }    from "./models/VorgangBearbeitenSchritte/StandardHardwareAuswahl";
 import { Vorgang }                    from "./models/Vorgang";
-import { VorgangBearbeitenSchritt }   from "./models/VorgangBearbeitenSchritt";
-import { VorgangSchritte }            from "./models/VorgangSchritte";
+//import { VorgangBearbeitenSchritt }   from "./models/VorgangBearbeitenSchritt";
+//import { VorgangSchritte }            from "./models/VorgangSchritte";
 import { VorgangStatus }              from "./models/VorgangStatus";
-import { VorgangZwischengespeichert } from "./models/VorgangZwischengespeichert";
+//import { VorgangZwischengespeichert } from "./models/VorgangZwischengespeichert";
 
 const helloFromModels = () => console.log( 'helloFromModels' );
 
@@ -39,21 +39,21 @@ export {
     ErrorCode,
     ErrorResponse,
     
-    Abholung,
+    //Abholung,
     AbholungArt,
-    Abschluss,
-    BkzAuswahl,
-    Genehmigung,
+    //Abschluss,
+    //BkzAuswahl,
+    //Genehmigung,
     IndividualBestellung,
-    IndividualBestellungen,
+    //IndividualBestellungen,
     Lieferanschrift,
-    MitarbeiterAuswahl,
-    StandardHardwareAuswahl,
+    //MitarbeiterAuswahl,
+    //StandardHardwareAuswahl,
     
     Vorgang,
-    VorgangBearbeitenSchritt,
-    VorgangSchritte,
+    //VorgangBearbeitenSchritt,
+    //VorgangSchritte,
     VorgangStatus,
-    VorgangZwischengespeichert,
+    //VorgangZwischengespeichert,
     
 };

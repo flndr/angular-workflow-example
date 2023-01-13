@@ -1,4 +1,4 @@
-import { VorgangZwischengespeichert } from '../models/VorgangZwischengespeichert';
+import { Vorgang }                    from '../models/Vorgang';
 
-export interface VorgangSpeichernRequest extends VorgangZwischengespeichert {
+export interface VorgangSpeichernRequest extends Vorgang {
 }

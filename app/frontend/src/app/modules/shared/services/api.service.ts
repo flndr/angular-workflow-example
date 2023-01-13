@@ -1,10 +1,8 @@
 import { HttpClient }               from '@angular/common/http';
 import { Injectable }               from '@angular/core';
 import { VorgangLadenResponse }     from '@tom/models';
-import { VorgangBearbeitenSchritt } from '@tom/models';
 import { firstValueFrom }           from 'rxjs';
 
-import { VorgangSchritte }         from '@tom/models';
 import { VorgaengeLadenResponse }  from '@tom/models';
 import { VorgangSpeichernRequest } from '@tom/models';
 import { Vorgang }                 from '@tom/models';
@@ -29,16 +27,10 @@ export class ApiService {
     }
     
     public async vorgangSpeichern(
-        vorgangId : string,
-        schritte : VorgangSchritte,
-        aktiverSchritt : VorgangBearbeitenSchritt
+        vorgang : Vorgang
     ) : Promise<void> {
         await this.post<{}, VorgangSpeichernRequest>(
-            ApiUrl.vorgangUrl( vorgangId ),
-            {
-                schritte,
-                aktiverSchritt
-            }
+            ApiUrl.vorgangUrl( vorgang.id ), vorgang
         );
     }
     

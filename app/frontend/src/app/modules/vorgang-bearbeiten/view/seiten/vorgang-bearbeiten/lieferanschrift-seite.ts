@@ -1,51 +1,73 @@
+import { OnInit }    from '@angular/core';
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router }    from '@angular/router';
 
-import { Lieferanschrift }          from '@tom/models';
-import { VorgangBearbeitenSchritt } from '@tom/models';
-
-import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
+import { VorgangBearbeitenSchritt } from '../../../../shared/model/VorgangBearbeitenSchritt';
+import { ApiService }               from '../../../../shared/services/api.service';
+import { UrlService }               from '../../../../shared/services/url.service';
+import { FormService }              from '../../../services/form.service';
+import { connectForm }              from '../../../util/connectForm';
 
 @Component( {
-    styles   : [
-        `
-        
-        `
-    ],
+    styles   : [ `` ],
     template : `
         <form [formGroup]="formGroup">
 
             <div class="mb-3">
-                <app-text-field [control]="fields.vorname" label="Vorname"></app-text-field>
+                <app-text-field [control]="fields['lieferanschrift.vorname']" label="Vorname"></app-text-field>
             </div>
             <div class="mb-3">
-                <app-text-field [control]="fields.nachname" label="Nachname"></app-text-field>
+                <app-text-field [control]="fields['lieferanschrift.nachname']" label="Nachname"></app-text-field>
             </div>
             <div class="mb-3">
-                <app-text-field [control]="fields.strasse" label="Strasse und Hausnummer"></app-text-field>
+                <app-text-field [control]="fields['lieferanschrift.strasse']"
+                                label="Strasse und Hausnummer"></app-text-field>
             </div>
             <div class="mb-3">
-                <app-text-field [control]="fields.plz" label="PLZ"></app-text-field>
+                <app-text-field [control]="fields['lieferanschrift.plz']" label="PLZ"></app-text-field>
             </div>
             <div class="mb-3">
-                <app-text-field [control]="fields.ort" label="Ort"></app-text-field>
+                <app-text-field [control]="fields['lieferanschrift.ort']" label="Ort"></app-text-field>
             </div>
             <div class="mb-3">
-                <app-text-field [control]="fields.land" label="Land"></app-text-field>
+                <app-text-field [control]="fields['lieferanschrift.land']" label="Land"></app-text-field>
             </div>
-
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
 
             <code>
-                <pre>{{formGroup.errors}}</pre>
+                <pre>{{formGroup.errors | json}}</pre>
             </code>
 
         </form>`,
 } )
-export class LieferanschriftSeite extends VorgangBearbeitenSeite<Lieferanschrift> {
+export class LieferanschriftSeite implements OnInit {
     
-    override formular         = Lieferanschrift;
-    override dieserSchritt    = VorgangBearbeitenSchritt.LIEFERANSCHRIFT;
-    override naechsterSchritt = VorgangBearbeitenSchritt.GENEHMIGUNG;
+    fields = FormService.SCHRITTE.LIEFERANSCHRIFT;
     
+    formGroup = new FormGroup( this.fields );
+    
+    constructor(
+        private formService : FormService,
+        private urlService : UrlService,
+        private apiService : ApiService,
+        private router : Router,
+    ) {}
+    
+    async ngOnInit() {
+        await connectForm( this.formService, this.formGroup, this.fields );
+    }
+    
+    async senden( e : Event ) {
+        e.preventDefault();
+        await this.apiService.vorgangSpeichern( this.formService.vorgang );
+        
+        await this.router.navigateByUrl(
+            this.urlService.routeToVorgangBearbeiten(
+                this.formService.vorgang.id,
+                VorgangBearbeitenSchritt.GENEHMIGUNG
+            )
+        );
+    }
 }

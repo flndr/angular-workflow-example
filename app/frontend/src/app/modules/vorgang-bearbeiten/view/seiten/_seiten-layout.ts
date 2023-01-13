@@ -1,11 +1,8 @@
-import { Component }     from '@angular/core';
-import { VorgangStatus } from '@tom/models';
+import { Component } from '@angular/core';
 
-import { VorgangBearbeitenSchritt } from '@tom/models';
-
-import { UrlService }        from '../../../shared/services/url.service';
-import { FormService }       from '../../services/form.service';
-import { NavigationService } from '../../services/navigation.service';
+import { VorgangBearbeitenSchritt } from '../../../shared/model/VorgangBearbeitenSchritt';
+import { UrlService }               from '../../../shared/services/url.service';
+import { FormService }              from '../../services/form.service';
 
 @Component( {
     styles   : [
@@ -37,7 +34,7 @@ import { NavigationService } from '../../services/navigation.service';
 
                 <div slot="center-left" style="width: 16rem">
                     <div class="list-group">
-                        <a *ngFor="let navItem of vorgangBearbeitenService.navigation; index as i"
+                        <a *ngFor="let navItem of formService.navigation; index as i"
                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                            [ngClass]="{ 'list-group-item-danger' : navItem.isInvalid,
                                         'list-group-item-success' : navItem.isValid  }"
@@ -70,27 +67,24 @@ import { NavigationService } from '../../services/navigation.service';
 } )
 export class SeitenLayout {
     
-    Schritt = VorgangBearbeitenSchritt;
-    
-    labelBySchritt : Record<VorgangBearbeitenSchritt, string> = {
-        [ VorgangBearbeitenSchritt.ABHOLUNG ]              : 'Abholung',
-        [ VorgangBearbeitenSchritt.BKZ_AUSWAHL ]           : 'BKZ',
-        [ VorgangBearbeitenSchritt.GENEHMIGUNG ]           : 'Genehmigung',
-        [ VorgangBearbeitenSchritt.INDIVIDUAL_BESTELLUNG ] : 'Individual-Bestellung',
-        [ VorgangBearbeitenSchritt.LIEFERANSCHRIFT ]       : 'Lieferanschrift',
-        [ VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL ]   : 'Mitarbeiter',
-        [ VorgangBearbeitenSchritt.STANDARD_HARDWARE ]     : 'Standard-Hardware',
-        [ VorgangBearbeitenSchritt.ABSCHLUSS ]             : 'Abschluss',
+    readonly labelBySchritt : Record<VorgangBearbeitenSchritt, string> = {
+        ABHOLUNG              : 'Abholung',
+        BKZ_AUSWAHL           : 'BKZ',
+        GENEHMIGUNG           : 'Genehmigung',
+        INDIVIDUAL_BESTELLUNG : 'Individual-Bestellung',
+        LIEFERANSCHRIFT       : 'Lieferanschrift',
+        MITARBEITER_AUSWAHL   : 'Mitarbeiter',
+        STANDARD_HARDWARE     : 'Standard-Hardware',
+        ABSCHLUSS             : 'Abschluss',
     };
     
     constructor(
-        public vorgangBearbeitenService : FormService,
-        public navigationService : NavigationService,
+        public formService : FormService,
         public urlService : UrlService,
     ) { }
     
     getRouteTo( schritt : VorgangBearbeitenSchritt ) : string {
-        return this.urlService.routeToVorgangBearbeiten( this.navigationService.getVorgangId(), schritt );
+        return this.urlService.routeToVorgangBearbeiten( this.formService.vorgang.id, schritt );
     }
     
 }

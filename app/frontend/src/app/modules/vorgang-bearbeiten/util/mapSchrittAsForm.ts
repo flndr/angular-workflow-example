@@ -1,6 +1,6 @@
-import { FormControl } from '@angular/forms';
+import { FormControl }              from '@angular/forms';
+import { VorgangBearbeitenSchritt } from '../../shared/model/VorgangBearbeitenSchritt';
 
-import { VorgangBearbeitenSchritt } from '@tom/models';
 
 export const mapSchrittAsForm = <F>( form : new () => F, schritt : VorgangBearbeitenSchritt ) : {
     fields : Record<keyof F, FormControl>,

@@ -1,11 +1,13 @@
-import { Component }   from '@angular/core';
-import { Genehmigung } from '@tom/models';
+import { OnInit }    from '@angular/core';
+import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router }    from '@angular/router';
 
-import { Abholung }                 from '@tom/models';
-import { VorgangBearbeitenSchritt } from '@tom/models';
-
-import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
-
+import { VorgangBearbeitenSchritt } from '../../../../shared/model/VorgangBearbeitenSchritt';
+import { ApiService }               from '../../../../shared/services/api.service';
+import { UrlService }               from '../../../../shared/services/url.service';
+import { FormService }              from '../../../services/form.service';
+import { connectForm }              from '../../../util/connectForm';
 @Component( {
     styles   : [
         `
@@ -16,11 +18,10 @@ import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
         <form [formGroup]="formGroup">
 
             <div class="mb-3">
-                <app-text-field [control]="fields.kuerzel" label="Kürzel des Genehmigenden"></app-text-field>
+                <app-text-field [control]="fields['genehmigerKuerzel']"
+                                label="Kürzel des Genehmigenden"></app-text-field>
             </div>
-   <div class="mb-3">
-                <app-text-field [control]="fields.anmerkungen" label="Anmerkungen"></app-text-field>
-            </div>
+            
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
 
@@ -30,10 +31,32 @@ import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
 
         </form>`,
 } )
-export class GenehmigungSeite extends VorgangBearbeitenSeite<Genehmigung> {
+export class GenehmigungSeite  implements OnInit {
     
-    override formular         = Genehmigung;
-    override dieserSchritt    = VorgangBearbeitenSchritt.GENEHMIGUNG;
-    override naechsterSchritt = VorgangBearbeitenSchritt.ABSCHLUSS;
+    fields = FormService.SCHRITTE.GENEHMIGUNG;
     
+    formGroup = new FormGroup( this.fields );
+    
+    constructor(
+        private formService : FormService,
+        private urlService : UrlService,
+        private apiService : ApiService,
+        private router : Router,
+    ) {}
+    
+    async ngOnInit() {
+        await connectForm( this.formService, this.formGroup, this.fields );
+    }
+    
+    async senden( e : Event ) {
+        e.preventDefault();
+        await this.apiService.vorgangSpeichern( this.formService.vorgang );
+        
+        await this.router.navigateByUrl(
+            this.urlService.routeToVorgangBearbeiten(
+                this.formService.vorgang.id,
+                VorgangBearbeitenSchritt.ABSCHLUSS
+            )
+        );
+    }
 }

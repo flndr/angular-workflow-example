@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { VorgangBearbeitenSchritt } from '@tom/models';
+import { VorgangBearbeitenSchritt } from '../model/VorgangBearbeitenSchritt';
 
 @Injectable( {
     providedIn : 'root'

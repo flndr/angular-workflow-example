@@ -4,6 +4,7 @@ import { CanActivate }            from '@angular/router';
 import { UrlTree }                from '@angular/router';
 import { Router }                 from '@angular/router';
 import { Injectable }             from '@angular/core';
+import { Vorgang }                from '@tom/models';
 import { ApiService }             from '../../shared/services/api.service';
 
 import { FormService }       from '../services/form.service';
@@ -23,12 +24,10 @@ export class VorgangLadenGuard implements CanActivate {
     
     async canActivate( route : ActivatedRouteSnapshot, state : RouterStateSnapshot ) : Promise<boolean | UrlTree> {
         try {
-            
-            const vorgangId = route.url[ 0 ].path;
-            const vorgang   = await this.apiService.vorgangLaden( vorgangId );
-            console.log( 'vorgang', route.url[ 0 ].path, vorgang );
+            const vorgangId         = route.url[ 0 ].path;
+            const vorgang : Vorgang = await this.apiService.vorgangLaden( vorgangId );
             this.navigationService.setVorgangId( vorgang.id );
-            await this.formService.updateFormValues( vorgang.schritte );
+            await this.formService.setVorgang( vorgang );
             return true;
         } catch ( e ) {
             console.error( e );

@@ -35,6 +35,7 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
                 "@tom/models",
+                "object-path",
                 "validator"
             ]
           },

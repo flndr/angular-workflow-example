@@ -1,16 +1,16 @@
-import { VorgangSpeichernRequest }  from '@tom/models';
-import { v4 as uuid }               from 'uuid';
-import { VorgangAnlegenResponse }   from '@tom/models';
-import { ErrorCode }                from '@tom/models';
-import { ErrorResponse }            from '@tom/models';
-import { ApiUrl }                   from '@tom/models';
-import { VorgangBearbeitenSchritt } from '@tom/models';
-import { VorgangStatus }            from '@tom/models';
-import { Vorgang }                  from '@tom/models';
-import { VorgaengeLadenRequest }    from '@tom/models';
-import { VorgangLadenResponse }     from '@tom/models';
-import { Request }                  from '../models/Request';
+import { VorgangStatus }           from '@tom/models';
+import { AbholungArt }             from '@tom/models';
+import { VorgangSpeichernRequest } from '@tom/models';
+import { VorgangAnlegenResponse }  from '@tom/models';
+import { ErrorCode }               from '@tom/models';
+import { ErrorResponse }           from '@tom/models';
+import { ApiUrl }                  from '@tom/models';
+import { Vorgang }                 from '@tom/models';
+import { VorgaengeLadenRequest }   from '@tom/models';
+import { VorgangLadenResponse }    from '@tom/models';
+import { v4 as uuid }              from 'uuid';
 
+import { Request }  from '../models/Request';
 import { Response } from '../models/Response';
 
 const id1 = '12345678-1111-uuid-1234-test-vorgang';
@@ -109,7 +109,7 @@ export class ApiController {
                 } );
             }
             
-            this.vorgange[ vorgangId ].schritte = req.body.schritte;
+            this.vorgange[ vorgangId ] = req.body;
             
             return res.status( 204 ).jsonp( {} );
             
@@ -144,49 +144,30 @@ export class ApiController {
 
 function neuerVorgang() : Vorgang {
     return {
-        id                   : '',
-        titel                : 'Neuer Vorgang',
-        erstellerKuerzel     : 'TFL',
-        erstellungszeitpunkt : 'halber',
-        status               : VorgangStatus.ZWISCHENGESPEICHERT,
-        schritte             : {
-            [ VorgangBearbeitenSchritt.ABHOLUNG ] : {
-                abholungArt : null
-            },
-            
-            [ VorgangBearbeitenSchritt.BKZ_AUSWAHL ] : {
-                bkz : null
-            },
-            
-            [ VorgangBearbeitenSchritt.GENEHMIGUNG ] : {
-                kuerzel     : null,
-                anmerkungen : null
-            },
-            
-            [ VorgangBearbeitenSchritt.INDIVIDUAL_BESTELLUNG ] : {
-                bestellungen : []
-            },
-            
-            [ VorgangBearbeitenSchritt.LIEFERANSCHRIFT ] : {
-                vorname  : '',
-                nachname : '',
-                strasse  : '',
-                plz      : '',
-                ort      : '',
-                land     : '',
-            },
-            
-            [ VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL ] : {
-                kuerzel : ''
-            },
-            
-            [ VorgangBearbeitenSchritt.STANDARD_HARDWARE ] : {
-                artikel : []
-            },
-            
-            [ VorgangBearbeitenSchritt.ABSCHLUSS ] : {
-                checkboxAllesGeprueftUndBestaetigt : false
-            }
-        }
+        id                  : '',
+        titel               : 'Neuer Vorgang',
+        status              : VorgangStatus.ZWISCHENGESPEICHERT,
+        erstellungZeitpunkt : '',
+        
+        bkz                    : '',
+        erstellerKuerzel       : '',
+        genehmigerKuerzel      : '',
+        beguenstigterKuerzel   : '',
+        abholungArt            : AbholungArt.KURIER,
+        individualBestellungen : [],
+        standardHardwareIds    : [],
+        
+        lieferanschrift : {
+            vorname  : 'hans',
+            nachname : '',
+            strasse  : '',
+            plz      : '',
+            ort      : '',
+            land     : '',
+        },
+        
+        checkboxAllesGeprueftUndBestaetigt : false,
+        
     };
+    
 }

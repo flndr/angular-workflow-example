@@ -5,6 +5,7 @@ import { FormsModule }         from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink }          from '@angular/router';
 
+import { CheckboxFieldComponent }   from './components/checkbox-field-component';
 import { TextFieldComponent }       from './components/text-field-component';
 import { HeadcrumbComponent }       from './components/headcrumb.component';
 import { StatusBadgeComponent }     from './components/statusbadge.component';
@@ -18,6 +19,7 @@ import { HolyGrailLayoutComponent } from './layouts/holy-grail-layout.component'
         HeadcrumbComponent,
         StatusBadgeComponent,
         TextFieldComponent,
+        CheckboxFieldComponent,
     ],
     exports      : [
         HighlightLayoutComponent,
@@ -25,6 +27,7 @@ import { HolyGrailLayoutComponent } from './layouts/holy-grail-layout.component'
         HeadcrumbComponent,
         StatusBadgeComponent,
         TextFieldComponent,
+        CheckboxFieldComponent,
     ],
     imports      : [
         RouterLink,

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { VorgangBearbeitenSchritt } from '@tom/models';
+import { VorgangBearbeitenSchritt } from '../../../../shared/model/VorgangBearbeitenSchritt';
 import { UrlService }               from '../../../../shared/services/url.service';
 
 @Component( {
@@ -50,7 +50,8 @@ import { UrlService }               from '../../../../shared/services/url.servic
             <nav>
                 <a [routerLink]="urlService.routeToVorgangBearbeiten(VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL)">1 -
                     MITARBEITER_AUSWAHL</a>
-                <a [routerLink]="urlService.routeToVorgangBearbeiten(VorgangBearbeitenSchritt.BKZ_AUSWAHL)">2 - BKZ_AUSWAHL</a>
+                <a [routerLink]="urlService.routeToVorgangBearbeiten(VorgangBearbeitenSchritt.BKZ_AUSWAHL)">2 -
+                    BKZ_AUSWAHL</a>
                 <a [routerLink]="">3 - Payment Options</a>
                 <a [routerLink]="">4 - Summary</a>
             </nav>

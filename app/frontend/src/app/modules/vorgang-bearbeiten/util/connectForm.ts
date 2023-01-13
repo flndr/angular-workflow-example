@@ -1,41 +1,43 @@
-import { FormGroup } from '@angular/forms';
-
-import { VorgangBearbeitenSchritt as Schritt } from '@tom/models';
+import { FormControl } from '@angular/forms';
+import { FormGroup }   from '@angular/forms';
 
 import { FormService }            from '../services/form.service';
-import { ConstraintsPerProperty } from '../validation/index';
+import { ConstraintsPerProperty } from '../validation/getConstraints';
 
-export const connectForm = async ( formService : FormService, formGroup : FormGroup, schritt : Schritt ) => {
+export const connectForm = async (
+    formService : FormService,
+    formGroup : FormGroup,
+    fields : Record<string, FormControl>
+) => {
+    
+    const fieldNames = Object.keys( fields );
     
     const setFormGroupValues = () => {
-        const formData : Record<string, any> = formService.schritte[ schritt ];
+        const formData : Record<string, any> = formService.getValues( fieldNames );
         Object.keys( formData ).forEach( field => {
-            const control = formGroup.controls[ schritt + '.' + field ];
+            const control = formGroup.controls[ field ];
             if ( control ) {
                 control.setValue( formData[ field ] );
             } else {
-                console.error( `FormGroup control  "${ schritt + '.' + field }" not found.` );
+                console.error( `Konnte Wert für FormControl "${ field }" nicht setzen, weil nicht gefunden.` );
             }
         } );
     };
     
     const setFormGroupErrors = () => {
-        const constraints : ConstraintsPerProperty = formService.constraintsFilteredBy( schritt );
+        const constraints : ConstraintsPerProperty = formService.getConstraints( fieldNames );
         constraints.forEach( c => {
             const control = formGroup.controls[ c.property ];
             if ( control ) {
                 control.setErrors( c.constraints );
             } else {
-                console.error( `FormGroup control  "${ c.property }" not found.` );
+                console.error( `Konnte Validierung für FormControl  "${ c.property }" nicht setzen, weil nicht gefunden.` );
             }
         } );
     }
     
     // write values from service into form group
     setFormGroupValues();
-    
-    // TODO entfernen - soll beim laden passieren
-    await formService.updateConstraints();
     
     // write constraints from service into form group as field errors
     setFormGroupErrors();

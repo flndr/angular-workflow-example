@@ -1,10 +1,13 @@
-import { Component }               from '@angular/core';
-import { StandardHardwareAuswahl } from '@tom/models';
+import { OnInit }    from '@angular/core';
+import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router }    from '@angular/router';
 
-import { VorgangBearbeitenSchritt } from '@tom/models';
-import { BkzAuswahl }               from '@tom/models';
-
-import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
+import { VorgangBearbeitenSchritt } from '../../../../shared/model/VorgangBearbeitenSchritt';
+import { ApiService }               from '../../../../shared/services/api.service';
+import { UrlService }               from '../../../../shared/services/url.service';
+import { FormService }              from '../../../services/form.service';
+import { connectForm }              from '../../../util/connectForm';
 
 
 @Component( {
@@ -17,7 +20,8 @@ import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
         <form [formGroup]="formGroup">
 
             <div class="mb-3">
-                <app-text-field [control]="fields.artikel" label="StandardHardwareAuswahl"></app-text-field>
+                <app-text-field [control]="fields['standardHardwareIds']"
+                                label="StandardHardwareAuswahl"></app-text-field>
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
@@ -28,10 +32,32 @@ import { VorgangBearbeitenSeite } from './vorgang-bearbeiten-seite.component';
 
         </form>`,
 } )
-export class StandardHardwareSeite extends VorgangBearbeitenSeite<StandardHardwareAuswahl> {
+export class StandardHardwareSeite  implements OnInit {
     
-    override formular         = StandardHardwareAuswahl;
-    override dieserSchritt    = VorgangBearbeitenSchritt.STANDARD_HARDWARE;
-    override naechsterSchritt = VorgangBearbeitenSchritt.INDIVIDUAL_BESTELLUNG;
+    fields = FormService.SCHRITTE.STANDARD_HARDWARE;
     
+    formGroup = new FormGroup( this.fields );
+    
+    constructor(
+        private formService : FormService,
+        private urlService : UrlService,
+        private apiService : ApiService,
+        private router : Router,
+    ) {}
+    
+    async ngOnInit() {
+        await connectForm( this.formService, this.formGroup, this.fields );
+    }
+    
+    async senden( e : Event ) {
+        e.preventDefault();
+        await this.apiService.vorgangSpeichern( this.formService.vorgang );
+        
+        await this.router.navigateByUrl(
+            this.urlService.routeToVorgangBearbeiten(
+                this.formService.vorgang.id,
+                VorgangBearbeitenSchritt.INDIVIDUAL_BESTELLUNG
+            )
+        );
+    }
 }

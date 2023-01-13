@@ -1,19 +1,9 @@
-import { AbholungArt } from '@tom/models';
-import objectPath      from 'object-path';
-import { Injectable }  from '@angular/core';
-import { FormGroup }   from '@angular/forms';
+import { Injectable } from '@angular/core';
 
-import { VorgangBearbeitenSchritt as Schritt } from '@tom/models';
-
-import { ApiService }                 from '../../shared/services/api.service';
-import { UrlService }                 from '../../shared/services/url.service';
-import { NavigationForUi }            from '../model/Navigation';
-import { NavigationItem }             from '../model/Navigation';
-import { Navigation }                 from '../model/Navigation';
-import { ConstraintsPerProperty }     from '../validation/index';
-import { VorgangSchritteValidations } from '../validation/index';
-import { validate }                   from '../validation/index';
-import { vorgangSchritteDefaultData } from '../validation/index';
+import { VorgangBearbeitenSchritt as Schritt } from '../../shared/model/VorgangBearbeitenSchritt';
+import { UrlService }                          from '../../shared/services/url.service';
+import { NavigationItem }                      from '../model/Navigation';
+import { Navigation }                          from '../model/Navigation';
 
 const newNavItem = () : NavigationItem => ( {
     isValid    : false,
@@ -28,8 +18,6 @@ const newNavItem = () : NavigationItem => ( {
 export class NavigationService {
     
     private _vorgangId : string | null = null;
-    
-    readonly _navigation : Navigation;
     
     constructor(
         private urlService : UrlService
@@ -47,7 +35,6 @@ export class NavigationService {
             [ Schritt.ABSCHLUSS ]             : this.urlService.routeToVorgangBearbeiten( this._vorgangId!, Schritt.ABSCHLUSS ),
         }
     }
-    
     
     setVorgangId( id : string ) : void {
         this._vorgangId = id;
