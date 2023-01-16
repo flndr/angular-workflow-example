@@ -1,3 +1,4 @@
+import { MitarbeiterLadenResponse }      from '@tom/models';
 import { StandardHardwareKategorie }     from '@tom/models';
 import { StandardHardwareArtikel }       from '@tom/models';
 import { StandardHardwareLadenResponse } from '@tom/models';
@@ -205,6 +206,38 @@ export class ApiController {
                 vorgangId
             } );
             
+        } catch ( e ) {
+            return res.status( 500 ).jsonp( {} );
+        }
+    }
+    
+    public mitarbeiterLaden(
+        req : Request<{}>,
+        res : Response<MitarbeiterLadenResponse | ErrorResponse>
+    ) {
+        try {
+            return res.status( 200 ).jsonp( [
+                { vorname : 'Max', nachname : 'Muster', kuerzel : 'MMU' },
+                { vorname : 'Stefan', nachname : 'Schuster', kuerzel : 'SSC' },
+                { vorname : 'Barbara', nachname : 'Bauer', kuerzel : 'BAB' },
+                { vorname : 'Marc', nachname : 'Max', kuerzel : 'MMA' },
+                { vorname : 'Olegs', nachname : 'Oberhuber', kuerzel : 'OOB' },
+                { vorname : 'Andreas', nachname : 'Anders', kuerzel : 'ANA' },
+                { vorname : 'Christina', nachname : 'Charlot', kuerzel : 'CHA' },
+                { vorname : 'Dörte', nachname : 'Druff', kuerzel : 'DOE' },
+                { vorname : 'Franz', nachname : 'Franken', kuerzel : 'FRF' },
+                { vorname : 'Gustav', nachname : 'Gans', kuerzel : 'GAN' },
+                { vorname : 'Hilde', nachname : 'Gard', kuerzel : 'HIL' },
+                { vorname : 'Igor', nachname : 'Ivanson', kuerzel : 'IIV' },
+                { vorname : 'Laura', nachname : 'Lümmel', kuerzel : 'LLU' },
+                { vorname : 'Tom', nachname : 'Tom', kuerzel : 'TTO' },
+                { vorname : 'Sandra', nachname : 'Sauber', kuerzel : 'SSA' },
+                { vorname : 'Dominik', nachname : 'Duda', kuerzel : 'DUD' },
+                { vorname : 'Flo', nachname : 'Sualanganoma', kuerzel : 'FSU' },
+                { vorname : 'Karsten', nachname : 'Kaputt', kuerzel : 'KKA' },
+                { vorname : 'Petra', nachname : 'Paulus', kuerzel : 'PEP' },
+                { vorname : 'Ben', nachname : 'Jamin', kuerzel : 'BEN' },
+            ] );
         } catch ( e ) {
             return res.status( 500 ).jsonp( {} );
         }

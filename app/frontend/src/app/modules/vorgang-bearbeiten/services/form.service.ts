@@ -163,6 +163,8 @@ export class FormService {
             this._navigation[ schritt ].errorCount = constraints.length;
         } );
         
+        console.log( this._constraints );
+        
     }
     
 }

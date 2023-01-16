@@ -7,22 +7,20 @@ import { Component } from '@angular/core';
             :host {
                 height : 100%;
             }
-
-            .top {
-                margin-bottom : 2rem;
-            }
         `
     ],
     template : `
         <app-holy-grail-layout>
 
-            <div slot="bottom">
-                (C) Hello Tom
+            <div slot="top" class="mb-3 bg-dark text-bg-dark">
+                <div class="container">
+                    Angular Workflow Example App
+                </div>
             </div>
 
-            <div slot="top" class="top bg-dark text-bg-dark">
-                <div class="container">
-                    Angular Workflow Example
+            <div slot="bottom" class="bg-dark text-bg-dark">
+                <div class="container mb-0">
+                    TFL 4 IPU
                 </div>
             </div>
 

@@ -21,6 +21,7 @@ export const addRoutes = ( app : Express ) => {
     app.post( ApiUrl.vorgangUrl(), simulateSlowBackend, apiController.vorgangSpeichern.bind( apiController ) );
     
     app.get( ApiUrl.STANDARD_HARDWARE, simulateSlowBackend, apiController.standardHardwareLaden.bind( apiController ) );
+    app.get( ApiUrl.MITARBEITER, simulateSlowBackend, apiController.mitarbeiterLaden.bind( apiController ) );
 }
 
 function pause( ms : number ) : Promise<void> {

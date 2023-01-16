@@ -1,5 +1,6 @@
 import { HttpClient }                    from '@angular/common/http';
 import { Injectable }                    from '@angular/core';
+import { MitarbeiterLadenResponse }      from '@tom/models';
 import { StandardHardwareArtikel }       from '@tom/models';
 import { StandardHardwareLadenResponse } from '@tom/models';
 import { VorgangLadenResponse }          from '@tom/models';
@@ -35,6 +36,10 @@ export class ApiService {
     public async standardHardwareLaden() : Promise<StandardHardwareArtikel[]> {
         const res = await this.get<StandardHardwareLadenResponse>( ApiUrl.STANDARD_HARDWARE );
         return res.artikel;
+    }
+    
+    public async mitarbeiterLaden() : Promise<MitarbeiterLadenResponse> {
+        return await this.get<MitarbeiterLadenResponse>( ApiUrl.MITARBEITER );
     }
     
     private async get<Response>( url : string ) : Promise<Response> {
