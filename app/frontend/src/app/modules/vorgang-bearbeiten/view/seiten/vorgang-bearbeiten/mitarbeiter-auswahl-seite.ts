@@ -13,17 +13,13 @@ import { connectForm }              from '../../../util/connectForm';
     styles   : [ `` ],
     template : `
         <form [formGroup]="formGroup">
-
+            <h3>Für welchen Mitarbeiter wird der Vorgang angelegt?</h3>
             <div class="mb-3">
                 <app-text-field [control]="fields['beguenstigterKuerzel']"
-                                label="Kürzel des Begünstigten"></app-text-field>
+                                label="Kürzel des Mitarbeiters"></app-text-field>
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
-
-            <code>
-                <pre>{{formGroup.errors}}</pre>
-            </code>
 
         </form>`,
 } )

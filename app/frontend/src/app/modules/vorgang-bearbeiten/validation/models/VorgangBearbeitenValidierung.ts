@@ -1,5 +1,4 @@
 import { Type }           from 'class-transformer';
-import { IsArray }        from 'class-validator';
 import { Matches }        from 'class-validator';
 import { Equals }         from 'class-validator';
 import { IsNotEmpty }     from 'class-validator';
@@ -11,9 +10,10 @@ import { IndividualBestellung } from '@tom/models';
 import { AbholungArt }          from '@tom/models';
 import { Lieferanschrift }      from '@tom/models';
 
-import { IndividualBestellungValidation } from './dtos/IndividualBestellungValidation';
-import { LieferanschriftValidation } from './dtos/LieferanschriftValidation';
-import { VorgangBearbeitenForm }     from './VorgangBearbeitenForm';
+import { IndividualBestellungValidation }     from './dtos/IndividualBestellungValidation';
+import { LieferanschriftValidation }          from './dtos/LieferanschriftValidation';
+import { StandardHardwareAuswahlValidierung } from './dtos/StandardHardwareAuswahlValidierung';
+import { VorgangBearbeitenForm }              from './VorgangBearbeitenForm';
 
 export class ExtraFieldsValidationOptions {
     isManager : boolean;
@@ -41,6 +41,12 @@ export class VorgangBearbeitenValidierung extends ExtraFieldsValidationOptions i
     @Matches( kuerzelPattern )
     genehmigerKuerzel : string;
     
+    genehmigungAnmerkungen : string;
+    
+    @ValidateNested()
+    @Type( () => StandardHardwareAuswahlValidierung )
+    standardHardwareAuswahl : StandardHardwareAuswahlValidierung;
+    
     @ValidateNested()
     @Type( () => IndividualBestellungValidation )
     individualBestellungen : Array<IndividualBestellung>;
@@ -49,9 +55,6 @@ export class VorgangBearbeitenValidierung extends ExtraFieldsValidationOptions i
     @ValidateNested()
     @Type( () => LieferanschriftValidation )
     lieferanschrift : Lieferanschrift | null;
-    
-    @IsArray()
-    standardHardwareIds : Array<string>;
     
     @IsNotEmpty()
     titel : string;

@@ -1,7 +1,8 @@
-import { AbholungArt }          from './VorgangBearbeitenSchritte/AbholungArt';
-import { IndividualBestellung } from './VorgangBearbeitenSchritte/IndividualBestellung';
-import { Lieferanschrift }      from './VorgangBearbeitenSchritte/Lieferanschrift';
-import { VorgangStatus }        from './VorgangStatus';
+import { AbholungArt }             from './Vorgang/AbholungArt';
+import { IndividualBestellung }    from './Vorgang/IndividualBestellung';
+import { Lieferanschrift }         from './Vorgang/Lieferanschrift';
+import { StandardHardwareAuswahl } from './Vorgang/StandardHardwareAuswahl';
+import { VorgangStatus }           from './VorgangStatus';
 
 export interface Vorgang {
     id : string;
@@ -12,9 +13,10 @@ export interface Vorgang {
     // formData
     titel : string;
     genehmigerKuerzel : string;
+    genehmigungAnmerkungen: string;
     beguenstigterKuerzel : string;
     bkz : string;
-    standardHardwareIds : Array<string>;
+    standardHardwareAuswahl : StandardHardwareAuswahl;
     individualBestellungen : Array<IndividualBestellung>;
     abholungArt : AbholungArt;
     lieferanschrift : Lieferanschrift | null;

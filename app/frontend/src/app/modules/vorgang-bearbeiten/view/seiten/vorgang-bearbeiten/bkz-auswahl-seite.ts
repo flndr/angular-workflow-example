@@ -17,16 +17,12 @@ import { connectForm }              from '../../../util/connectForm';
     ],
     template : `
         <form [formGroup]="formGroup">
-
+            <h3>Auf welches Buchungskennzeichen werden die Kosten verbucht?</h3>
             <div class="mb-3">
                 <app-text-field [control]="fields['bkz']" label="BKZ"></app-text-field>
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
-
-            <code>
-                <pre>{{formGroup.errors}}</pre>
-            </code>
 
         </form>`,
 } )

@@ -7,8 +7,13 @@ export const defaultValues : VorgangBearbeitenForm = {
     bkz                                : '',
     checkboxAllesGeprueftUndBestaetigt : false,
     genehmigerKuerzel                  : '',
+    genehmigungAnmerkungen             : '',
     individualBestellungen             : [],
-    standardHardwareIds                : [],
+    standardHardwareAuswahl            : {
+        headsetArtikelId : null,
+        tascheArtikelId  : null,
+        laptopArtikelId  : null
+    },
     titel                              : '',
     lieferanschrift                    : {
         vorname  : 'hans',

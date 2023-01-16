@@ -22,7 +22,6 @@ import { FormService }              from '../../services/form.service';
         `
     ],
     template : `
-        <app-highlight-layout label="SeitenLayout" color="green">
             <app-holy-grail-layout>
 
                 <div slot="top" class="top">
@@ -63,7 +62,7 @@ import { FormService }              from '../../services/form.service';
                 <!--    </div>-->
 
             </app-holy-grail-layout>
-        </app-highlight-layout>`,
+    `,
 } )
 export class SeitenLayout {
     

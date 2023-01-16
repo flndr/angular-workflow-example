@@ -50,7 +50,9 @@ export class FormService {
             'beguenstigterKuerzel' : new FormControl( defaultValues.beguenstigterKuerzel ),
         },
         STANDARD_HARDWARE     : {
-            'standardHardwareIds' : new FormControl( defaultValues.standardHardwareIds ),
+            'standardHardwareAuswahl.laptopArtikelId'  : new FormControl( defaultValues.standardHardwareAuswahl.laptopArtikelId ),
+            'standardHardwareAuswahl.headsetArtikelId' : new FormControl( defaultValues.standardHardwareAuswahl.headsetArtikelId ),
+            'standardHardwareAuswahl.tascheArtikelId'  : new FormControl( defaultValues.standardHardwareAuswahl.tascheArtikelId ),
         },
         ABSCHLUSS             : {
             'checkboxAllesGeprueftUndBestaetigt' : new FormControl( defaultValues.checkboxAllesGeprueftUndBestaetigt ),

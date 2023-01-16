@@ -11,14 +11,14 @@ import { v4 as uuid }  from 'uuid';
         `
     ],
     template : `
-        <div *ngIf="control" class="form-check">
+        <div *ngIf="control" class="form-check form-switch">
             <input class="form-check-input"
                    type="checkbox"
                    [attr.id]="id"
                    [class.is-invalid]="control.dirty && control.invalid"
                    [formControl]="control"/>
 
-            <label class="form-check-label" [attr.for]="id">
+            <label class="form-check-label user-select-none" [attr.for]="id">
                 {{label}}
             </label>
 

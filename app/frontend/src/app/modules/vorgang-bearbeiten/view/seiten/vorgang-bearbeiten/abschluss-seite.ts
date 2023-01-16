@@ -17,18 +17,16 @@ import { connectForm }              from '../../../util/connectForm';
     ],
     template : `
         <form [formGroup]="formGroup">
-
+            <h3>Abschluss des Vorganges</h3>
             <div class="mb-3">
-                <app-checkbox-field [control]="fields['checkboxAllesGeprueftUndBestaetigt']"
-                                label="checkboxAllesGeprueftUndBestaetigt"></app-checkbox-field>
+                <app-checkbox-field
+                        [control]="fields['checkboxAllesGeprueftUndBestaetigt']"
+                        label="Ich habe alle Angaben geprüft und bestätige deren Richtigkeit."
+                ></app-checkbox-field>
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
-
-            <code>
-                <pre>{{formGroup.errors}}</pre>
-            </code>
-
+            
         </form>`,
 } )
 export class AbschlussSeite  implements OnInit {

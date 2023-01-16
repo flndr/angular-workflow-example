@@ -12,7 +12,7 @@ import { v4 as uuid }  from 'uuid';
     ],
     template : `
         <div *ngIf="control">
-            <label [attr.for]="id" class="form-label">
+            <label [attr.for]="id" class="form-label user-select-none">
                 {{label}}
             </label>
             <input type="text" class="form-control"

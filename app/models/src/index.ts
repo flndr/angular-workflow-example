@@ -1,59 +1,46 @@
-import { ApiUrl }                  from "./api/ApiUrl";
-import { VorgaengeLadenRequest }   from "./api/VorgaengeLadenRequest";
-import { VorgaengeLadenResponse }  from "./api/VorgaengeLadenResponse";
-import { VorgangLadenResponse }    from "./api/VorgangLadenResponse";
-import { VorgangAnlegenResponse }  from "./api/VorgangAnlegenResponse";
-import { VorgangSpeichernRequest } from "./api/VorgangSpeichernRequest";
-import { ErrorResponse }           from "./api/ErrorResponse";
-import { ErrorCode }               from "./api/ErrorCode";
+import { ApiUrl }        from "./api/ApiUrl";
+import { ErrorCode }     from "./api/ErrorCode";
+import { ErrorResponse } from "./api/ErrorResponse";
 
-import { Abholung }                   from "./models/VorgangBearbeitenSchritte/Abholung";
-import { AbholungArt }                from "./models/VorgangBearbeitenSchritte/AbholungArt";
-import { Abschluss }                  from "./models/VorgangBearbeitenSchritte/Abschluss";
-import { BkzAuswahl }                 from "./models/VorgangBearbeitenSchritte/BkzAuswahl";
-import { Genehmigung }                from "./models/VorgangBearbeitenSchritte/Genehmigung";
-import { IndividualBestellung }       from "./models/VorgangBearbeitenSchritte/IndividualBestellung";
-import { IndividualBestellungen }     from "./models/VorgangBearbeitenSchritte/IndividualBestellungen";
-import { Lieferanschrift }            from "./models/VorgangBearbeitenSchritte/Lieferanschrift";
-import { MitarbeiterAuswahl }         from "./models/VorgangBearbeitenSchritte/MitarbeiterAuswahl";
-import { StandardHardwareAuswahl }    from "./models/VorgangBearbeitenSchritte/StandardHardwareAuswahl";
-import { Vorgang }                    from "./models/Vorgang";
-//import { VorgangBearbeitenSchritt }   from "./models/VorgangBearbeitenSchritt";
-//import { VorgangSchritte }            from "./models/VorgangSchritte";
-import { VorgangStatus }              from "./models/VorgangStatus";
-//import { VorgangZwischengespeichert } from "./models/VorgangZwischengespeichert";
+import { VorgaengeLadenRequest }         from "./api/VorgaengeLadenRequest";
+import { VorgaengeLadenResponse }        from "./api/VorgaengeLadenResponse";
+import { VorgangAnlegenResponse }        from "./api/VorgangAnlegenResponse";
+import { VorgangLadenResponse }          from "./api/VorgangLadenResponse";
+import { VorgangSpeichernRequest }       from "./api/VorgangSpeichernRequest";
+import { StandardHardwareLadenResponse } from "./api/StandardHardwareLadenResponse";
 
-const helloFromModels = () => console.log( 'helloFromModels' );
+import { StandardHardwareKategorie } from "./models/StandardHardwareKategorie";
+import { StandardHardwareArtikel }   from "./models/StandardHardwareArtikel";
+
+import { Vorgang }                 from "./models/Vorgang";
+import { AbholungArt }             from "./models/Vorgang/AbholungArt";
+import { StandardHardwareAuswahl } from "./models/Vorgang/StandardHardwareAuswahl";
+import { IndividualBestellung }    from "./models/Vorgang/IndividualBestellung";
+import { Lieferanschrift }         from "./models/Vorgang/Lieferanschrift";
+import { VorgangStatus }           from "./models/VorgangStatus";
+
 
 export {
     
-    helloFromModels,
-    
     ApiUrl,
+    ErrorCode,
+    ErrorResponse,
     
     VorgaengeLadenRequest,
     VorgaengeLadenResponse,
     VorgangLadenResponse,
     VorgangAnlegenResponse,
     VorgangSpeichernRequest,
-    ErrorCode,
-    ErrorResponse,
+    StandardHardwareLadenResponse,
     
-    //Abholung,
+    StandardHardwareKategorie,
+    StandardHardwareArtikel,
+    
     AbholungArt,
-    //Abschluss,
-    //BkzAuswahl,
-    //Genehmigung,
+    StandardHardwareAuswahl,
     IndividualBestellung,
-    //IndividualBestellungen,
     Lieferanschrift,
-    //MitarbeiterAuswahl,
-    //StandardHardwareAuswahl,
-    
     Vorgang,
-    //VorgangBearbeitenSchritt,
-    //VorgangSchritte,
     VorgangStatus,
-    //VorgangZwischengespeichert,
     
 };

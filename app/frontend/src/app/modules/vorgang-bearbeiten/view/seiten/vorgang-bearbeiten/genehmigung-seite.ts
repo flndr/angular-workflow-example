@@ -16,7 +16,7 @@ import { connectForm }              from '../../../util/connectForm';
     ],
     template : `
         <form [formGroup]="formGroup">
-
+            <h3>Wer erteilt die Genehmigung zu diesem Vorgang?</h3>
             <div class="mb-3">
                 <app-text-field [control]="fields['genehmigerKuerzel']"
                                 label="Kürzel des Genehmigenden"></app-text-field>
@@ -24,10 +24,6 @@ import { connectForm }              from '../../../util/connectForm';
             
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
-
-            <code>
-                <pre>{{formGroup.errors}}</pre>
-            </code>
 
         </form>`,
 } )

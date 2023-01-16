@@ -13,7 +13,7 @@ import { connectForm }              from '../../../util/connectForm';
     styles   : [ `` ],
     template : `
         <form [formGroup]="formGroup">
-
+            <h3>Bei Lieferungen per Kurier benötigen wir eine Lieferanschrift:</h3>
             <div class="mb-3">
                 <app-text-field [control]="fields['lieferanschrift.vorname']" label="Vorname"></app-text-field>
             </div>
@@ -35,10 +35,6 @@ import { connectForm }              from '../../../util/connectForm';
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
-
-            <code>
-                <pre>{{formGroup.errors | json}}</pre>
-            </code>
 
         </form>`,
 } )

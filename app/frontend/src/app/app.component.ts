@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { DebugService } from './modules/shared/services/debug.service';
-
 @Component( {
     selector : 'app-root',
     styles   : [
@@ -19,8 +17,7 @@ import { DebugService } from './modules/shared/services/debug.service';
         <app-holy-grail-layout>
 
             <div slot="bottom">
-                <hr/>
-                <button (click)="debugService.toggleIsHighlightingActive()">Toggle UI Highlight</button>
+                (C) Hello Tom
             </div>
 
             <div slot="top" class="top bg-dark text-bg-dark">
@@ -52,7 +49,4 @@ import { DebugService } from './modules/shared/services/debug.service';
     `,
 } )
 export class AppComponent {
-    constructor(
-        public debugService : DebugService
-    ) { }
 }

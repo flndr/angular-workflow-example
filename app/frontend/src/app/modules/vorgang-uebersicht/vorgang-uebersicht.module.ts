@@ -1,7 +1,10 @@
-import { CommonModule }   from '@angular/common';
-import { NgModule }       from '@angular/core';
-import { Route }          from '@angular/router';
-import { RouterModule }   from '@angular/router';
+import { CommonModule }     from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule }         from '@angular/core';
+import { Route }            from '@angular/router';
+import { RouterModule }     from '@angular/router';
+import { LayoutModule }     from '../layout/layout.module';
+import { ApiService }       from '../shared/services/api.service';
 
 import { SharedModule }           from '../shared/shared.module';
 import { VorgangUebersichtSeite } from './view/seiten/vorgang-uebersicht-seite';
@@ -19,6 +22,7 @@ const routes : Route[] = [
     ],
     imports      : [
         CommonModule,
+        LayoutModule,
         SharedModule,
         RouterModule.forChild( routes )
     ],

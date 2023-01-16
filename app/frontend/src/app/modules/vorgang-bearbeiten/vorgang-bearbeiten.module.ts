@@ -1,10 +1,13 @@
 import { CommonModule }             from '@angular/common';
+import { HttpClientModule }         from '@angular/common/http';
 import { NgModule }                 from '@angular/core';
 import { ReactiveFormsModule }      from '@angular/forms';
 import { FormsModule }              from '@angular/forms';
 import { Route }                    from '@angular/router';
 import { RouterModule }             from '@angular/router';
+import { LayoutModule }             from '../layout/layout.module';
 import { VorgangBearbeitenSchritt } from '../shared/model/VorgangBearbeitenSchritt';
+import { ApiService }               from '../shared/services/api.service';
 
 import { UrlService }   from '../shared/services/url.service';
 import { SharedModule } from '../shared/shared.module';
@@ -14,7 +17,6 @@ import { FehlerseiteGrund }             from './view/errors/FehlerseiteGrund';
 import { FehlerSeite }                  from './view/seiten/_fehler-seite';
 import { SeitenLayout }                 from './view/seiten/_seiten-layout';
 import { VorgangBearbeitenFehlerSeite } from './view/seiten/vorgang-bearbeiten/_vorgang-bearbeiten-fehler-seite';
-import { VorgangBearbeitenLayout }      from './view/seiten/vorgang-bearbeiten/_vorgang-bearbeiten-layout';
 import { AbholungSeite }                from './view/seiten/vorgang-bearbeiten/abholung-seite';
 import { AbschlussSeite }               from './view/seiten/vorgang-bearbeiten/abschluss-seite';
 import { BkzAuswahlSeite }              from './view/seiten/vorgang-bearbeiten/bkz-auswahl-seite';
@@ -102,7 +104,6 @@ const routes : ComplexFormRoute[] = [
         MitarbeiterAuswahlSeite,
         LieferanschriftSeite,
         BkzAuswahlSeite,
-        VorgangBearbeitenLayout,
         StandardHardwareSeite,
         IndividualBestellungSeite,
         AbholungSeite,
@@ -111,6 +112,7 @@ const routes : ComplexFormRoute[] = [
     ],
     imports      : [
         CommonModule,
+        LayoutModule,
         SharedModule,
         RouterModule.forChild( routes ),
         NgSelectModule,

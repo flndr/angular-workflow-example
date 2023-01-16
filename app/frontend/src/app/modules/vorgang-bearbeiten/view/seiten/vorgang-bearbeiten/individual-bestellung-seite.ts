@@ -17,17 +17,13 @@ import { connectForm }              from '../../../util/connectForm';
     ],
     template : `
         <form [formGroup]="formGroup">
-
+            <h3>Bestellung individueller Hardware</h3>
             <div class="mb-3">
                 <app-text-field [control]="fields['individualBestellungen']"
                                 label="IndividualBestellungSeite"></app-text-field>
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
-
-            <code>
-                <pre>{{formGroup.errors}}</pre>
-            </code>
 
         </form>`,
 } )
