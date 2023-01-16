@@ -28,7 +28,7 @@ import { connectForm }              from '../../../util/connectForm';
         <form>
             <h3>Für welchen Mitarbeiter wird der Vorgang angelegt?</h3>
             
-            <div class="mb-3" [class.is-invalid]="field.dirty && field.invalid">
+            <div class="mb-3" [class.is-invalid]="formService.showErrors && field.invalid">
                 <label class="form-label user-select-none">
                     Begünstigten Mitarbeiter wählen:
                 </label>
@@ -45,7 +45,9 @@ import { connectForm }              from '../../../util/connectForm';
                 </div>
             </div>
 
-            <button class="btn btn-primary" (click)="senden($event)">weiter</button>
+            <button class="btn btn-primary" (click)="senden($event)">
+                Speichern und weiter
+            </button>
 
         </form>`,
 } )
@@ -59,7 +61,7 @@ export class MitarbeiterAuswahlSeite implements OnInit {
     kuerzel : string | null = null;
     
     constructor(
-        private formService : FormService,
+        public formService : FormService,
         private urlService : UrlService,
         private apiService : ApiService,
         private router : Router,

@@ -12,7 +12,7 @@ import { connectForm }              from '../../../util/connectForm';
 @Component( {
     styles   : [ `` ],
     template : `
-        <form [formGroup]="formGroup">
+        <form [formGroup]="formGroup" *ngIf="isReady">
             <h3>Bei Lieferungen per Kurier benötigen wir eine Lieferanschrift:</h3>
             <div class="mb-3">
                 <app-text-field [control]="fields['lieferanschrift.vorname']" label="Vorname"></app-text-field>
@@ -40,6 +40,8 @@ import { connectForm }              from '../../../util/connectForm';
 } )
 export class LieferanschriftSeite implements OnInit {
     
+    isReady = false;
+    
     fields = FormService.SCHRITTE.LIEFERANSCHRIFT;
     
     formGroup = new FormGroup( this.fields );
@@ -53,6 +55,7 @@ export class LieferanschriftSeite implements OnInit {
     
     async ngOnInit() {
         await connectForm( this.formService, this.formGroup, this.fields );
+        this.isReady = true;
     }
     
     async senden( e : Event ) {

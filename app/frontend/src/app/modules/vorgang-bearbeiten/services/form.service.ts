@@ -103,6 +103,14 @@ export class FormService {
         } );
     }
     
+    toggleShowErrors() : void {
+        this._showErrors = !this._showErrors;
+    }
+    
+    setShowErrors( show : boolean ) : void {
+        this._showErrors = show;
+    }
+    
     getValues( fields : string[] ) : Record<string, any> {
         const ret : Record<string, any> = {};
         fields.forEach( field => {

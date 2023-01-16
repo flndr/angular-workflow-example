@@ -1,8 +1,9 @@
-import { OnInit }                    from '@angular/core';
-import { Component }                 from '@angular/core';
-import { FormControl }               from '@angular/forms';
-import { FormGroup }                 from '@angular/forms';
-import { Router }                    from '@angular/router';
+import { OnInit }      from '@angular/core';
+import { Component }   from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { FormGroup }   from '@angular/forms';
+import { Router }      from '@angular/router';
+
 import { StandardHardwareKategorie } from '@tom/models';
 import { StandardHardwareArtikel }   from '@tom/models';
 
@@ -17,7 +18,7 @@ import { connectForm }              from '../../../util/connectForm';
         `
             .card {
                 width  : 16rem;
-                border : 3px solid var(--bs-border-color);
+                border : 2px solid var(--bs-border-color);
             }
 
             .card.selected {
@@ -31,6 +32,10 @@ import { connectForm }              from '../../../util/connectForm';
             <h3>Auswahl der Standard-Hardware</h3>
             <div *ngFor="let abschnitt of abschnitteForUi" class="mb-3">
                 <h4>{{abschnitt.label}}</h4>
+                <div class="invalid-feedback d-block"
+                     *ngIf="abschnitt.field.invalid && formService.showErrors">
+                    {{ abschnitt.field.errors | json }}
+                </div>
                 <div class="d-flex gap-3 flex-wrap">
                     <div class="card"
                          *ngFor="let artikel of artikelNachKategorie(abschnitt.kategorie)"
@@ -40,9 +45,9 @@ import { connectForm }              from '../../../util/connectForm';
                              [alt]="artikel.titel + ' - ' + artikel.beschreibung"
                              class="card-img-top">
                         <div class="card-body">
-                            <h5 class="card-title">{{artikel.titel}}</h5>
-                            <p class="card-text">{{artikel.beschreibung}}</p>
-                            <a href="#" class="btn btn-secondary stretched-link">
+                            <h6 class="card-title">{{artikel.titel}}</h6>
+                            <p class="card-text small">{{artikel.beschreibung}}</p>
+                            <a href="#" class="btn btn-outline-primary stretched-link">
                                 {{abschnitt.field.value === artikel.id ? 'Abwählen' : 'Auswählen'}}
                             </a>
                         </div>
@@ -50,7 +55,9 @@ import { connectForm }              from '../../../util/connectForm';
                 </div>
             </div>
 
-            <button class="btn btn-primary" (click)="senden($event)">weiter</button>
+            <button class="btn btn-primary" (click)="senden($event)">
+                Weiter
+            </button>
 
         </form>
     
@@ -88,7 +95,7 @@ export class StandardHardwareSeite implements OnInit {
     abschnitteForUi = Object.values( this.abschnitte );
     
     constructor(
-        private formService : FormService,
+        public formService : FormService,
         private urlService : UrlService,
         private apiService : ApiService,
         private router : Router,
@@ -115,7 +122,7 @@ export class StandardHardwareSeite implements OnInit {
         } else {
             field.setValue( artikel.id );
         }
-    
+        
         await this.apiService.vorgangSpeichern( this.formService.vorgang );
     }
     

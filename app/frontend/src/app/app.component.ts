@@ -12,15 +12,15 @@ import { Component } from '@angular/core';
     template : `
         <app-holy-grail-layout>
 
-            <div slot="top" class="mb-3 bg-dark text-bg-dark">
+            <div slot="top" class="py-3 bg-dark text-bg-dark">
                 <div class="container">
                     Angular Workflow Example App
                 </div>
             </div>
 
-            <div slot="bottom" class="bg-dark text-bg-dark">
+            <div slot="bottom" class="py-3 bg-dark text-bg-dark">
                 <div class="container mb-0">
-                    TFL 4 IPU
+                    Angular Workflow Example App
                 </div>
             </div>
 

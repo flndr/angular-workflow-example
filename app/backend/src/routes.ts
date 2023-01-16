@@ -10,7 +10,7 @@ import { ApiController } from './services/ApiController';
 const apiController = new ApiController();
 
 const simulateSlowBackend = async ( req : Request, res : Response, next : NextFunction ) => {
-    await pause( between( 10, 50 ) );
+    await pause( between( 0, 1 ) );
     next();
 }
 

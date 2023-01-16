@@ -26,10 +26,10 @@ import { connectForm }              from '../../../util/connectForm';
             </div>
 
             <button class="btn btn-primary" (click)="senden($event)">weiter</button>
-            
+
         </form>`,
 } )
-export class AbschlussSeite  implements OnInit {
+export class AbschlussSeite implements OnInit {
     
     fields = FormService.SCHRITTE.ABSCHLUSS;
     
@@ -48,6 +48,7 @@ export class AbschlussSeite  implements OnInit {
     
     async senden( e : Event ) {
         e.preventDefault();
+        this.formService.setShowErrors( true );
         await this.apiService.vorgangSpeichern( this.formService.vorgang );
         
         //await this.router.navigateByUrl(

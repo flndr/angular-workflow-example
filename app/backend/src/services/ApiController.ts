@@ -82,7 +82,7 @@ export class ApiController {
             id           : hw3,
             kategorie    : StandardHardwareKategorie.RECHNER,
             titel        : 'Portabler Laptop',
-            beschreibung : 'Schlanker, leichter, teurer, aber zu schwach für Entwickler.',
+            beschreibung : 'Langsamer, leichter, schöner, teurer, aber wieder nicht was wir Entwickler gerne hätten.',
             imgUrl       : '/assets/standard-hardware/portabler-laptop.jpg',
             kosten       : 1299.99
         },

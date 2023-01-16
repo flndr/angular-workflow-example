@@ -1,18 +1,20 @@
-import { CommonModule }             from '@angular/common';
-import { HttpClientModule }         from '@angular/common/http';
-import { NgModule }                 from '@angular/core';
-import { ReactiveFormsModule }      from '@angular/forms';
-import { FormsModule }              from '@angular/forms';
-import { Route }                    from '@angular/router';
-import { RouterModule }             from '@angular/router';
+import { CommonModule }        from '@angular/common';
+import { NgModule }            from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule }         from '@angular/forms';
+import { Route }               from '@angular/router';
+import { RouterModule }        from '@angular/router';
+import { NgSelectModule }      from '@ng-select/ng-select';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+
 import { LayoutModule }             from '../layout/layout.module';
 import { VorgangBearbeitenSchritt } from '../shared/model/VorgangBearbeitenSchritt';
-import { ApiService }               from '../shared/services/api.service';
-
-import { UrlService }   from '../shared/services/url.service';
-import { SharedModule } from '../shared/shared.module';
+import { UrlService }               from '../shared/services/url.service';
+import { SharedModule }             from '../shared/shared.module';
 
 import { VorgangLadenGuard }            from './routes/merke-vorgang-id-guard.service';
+import { CheckboxFieldComponent }       from './view/components/checkbox-field-component';
+import { TextFieldComponent }           from './view/components/text-field-component';
 import { FehlerseiteGrund }             from './view/errors/FehlerseiteGrund';
 import { FehlerSeite }                  from './view/seiten/_fehler-seite';
 import { SeitenLayout }                 from './view/seiten/_seiten-layout';
@@ -26,7 +28,6 @@ import { LieferanschriftSeite }         from './view/seiten/vorgang-bearbeiten/l
 import { MitarbeiterAuswahlSeite }      from './view/seiten/vorgang-bearbeiten/mitarbeiter-auswahl-seite';
 import { StandardHardwareSeite }        from './view/seiten/vorgang-bearbeiten/standard-hardware-seite';
 import { VorgangDetailSeite }           from './view/seiten/vorgang-detail-seite';
-import { NgSelectModule }               from '@ng-select/ng-select';
 
 export interface RouteData {
     title? : string;
@@ -108,7 +109,9 @@ const routes : ComplexFormRoute[] = [
         IndividualBestellungSeite,
         AbholungSeite,
         GenehmigungSeite,
-        AbschlussSeite
+        AbschlussSeite,
+        CheckboxFieldComponent,
+        TextFieldComponent
     ],
     imports      : [
         CommonModule,
@@ -116,6 +119,7 @@ const routes : ComplexFormRoute[] = [
         SharedModule,
         RouterModule.forChild( routes ),
         NgSelectModule,
+        NgxJsonViewerModule,
         FormsModule,
         ReactiveFormsModule
     ],

@@ -22,7 +22,9 @@ import { connectForm }              from '../../../util/connectForm';
                 <app-text-field [control]="fields['bkz']" label="BKZ"></app-text-field>
             </div>
 
-            <button class="btn btn-primary" (click)="senden($event)">weiter</button>
+            <button class="btn btn-primary" (click)="senden($event)">
+                Speichern und weiter
+            </button>
 
         </form>`,
 } )

@@ -18,6 +18,8 @@ export const connectForm = async (
             const control = formGroup.controls[ field ];
             if ( control ) {
                 control.setValue( formData[ field ] );
+                control.disable();
+                control.enable();
             } else {
                 console.error( `Konnte Wert für FormControl "${ field }" nicht setzen, weil nicht gefunden.` );
             }
@@ -26,10 +28,15 @@ export const connectForm = async (
     
     const setFormGroupErrors = () => {
         const constraints : ConstraintsPerProperty = formService.getConstraints( fieldNames );
+        console.log( fieldNames.join( ', ' ), constraints );
         constraints.forEach( c => {
             const control = formGroup.controls[ c.property ];
             if ( control ) {
                 control.setErrors( c.constraints );
+                // setTimeout? --> https://github.com/angular/angular/issues/38191
+                setTimeout( () => {
+                    control.setErrors( c.constraints );
+                }, 0 );
             } else {
                 console.error( `Konnte Validierung für FormControl  "${ c.property }" nicht setzen, weil nicht gefunden.` );
             }
@@ -46,5 +53,7 @@ export const connectForm = async (
         await formService.updateFormValues( formValues );
         setFormGroupErrors();
     } );
+    
+    formGroup.markAsDirty();
     
 }

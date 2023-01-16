@@ -2,30 +2,34 @@ import { Input }       from '@angular/core';
 import { Component }   from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { v4 as uuid }  from 'uuid';
+import { FormService } from '../../services/form.service';
 
 @Component( {
-    selector : 'app-text-field',
+    selector : 'app-checkbox-field',
     styles   : [
         `
         
         `
     ],
     template : `
-        <div *ngIf="control">
-            <label [attr.for]="id" class="form-label user-select-none">
+        <div *ngIf="control" class="form-check form-switch">
+            <input class="form-check-input"
+                   type="checkbox"
+                   [attr.id]="id"
+                   [class.is-invalid]="formService.showErrors && control.invalid"
+                   [formControl]="control"/>
+
+            <label class="form-check-label user-select-none" [attr.for]="id">
                 {{label}}
             </label>
-            <input type="text" class="form-control"
-                   [attr.id]="id"
-                   [class.is-invalid]="control.dirty && control.invalid"
-                   [formControl]="control"/>
+
             <div class="invalid-feedback">
                 {{ control.errors | json }}
             </div>
         </div>
     `,
 } )
-export class TextFieldComponent {
+export class CheckboxFieldComponent {
     
     id = uuid();
     
@@ -34,4 +38,9 @@ export class TextFieldComponent {
     
     @Input()
     label : string;
+    
+    constructor(
+        public formService : FormService
+    ) {}
+    
 }
