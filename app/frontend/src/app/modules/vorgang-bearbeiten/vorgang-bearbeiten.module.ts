@@ -1,18 +1,20 @@
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { NgSelectModule }      from '@ng-select/ng-select';
 import { CommonModule }        from '@angular/common';
 import { NgModule }            from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule }         from '@angular/forms';
 import { Route }               from '@angular/router';
 import { RouterModule }        from '@angular/router';
-import { NgSelectModule }      from '@ng-select/ng-select';
-import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
-import { LayoutModule }             from '../layout/layout.module';
-import { VorgangBearbeitenSchritt } from '../shared/model/VorgangBearbeitenSchritt';
-import { UrlService }               from '../shared/services/url.service';
-import { SharedModule }             from '../shared/shared.module';
-import { MerkeSchrittGuard }        from './routes/merke-schritt-guard.service';
+import { VorgangBearbeitenSchritt as Schritt } from '../shared/model/VorgangBearbeitenSchritt';
 
+import { LayoutModule } from '../layout/layout.module';
+import { TitleService } from '../shared/services/title.service';
+import { UrlService }   from '../shared/services/url.service';
+import { SharedModule } from '../shared/shared.module';
+
+import { MerkeSchrittGuard }            from './routes/merke-schritt-guard.service';
 import { VorgangLadenGuard }            from './routes/merke-vorgang-id-guard.service';
 import { RouteData }                    from './routes/models/RouteData';
 import { CheckboxFieldComponent }       from './view/components/checkbox-field-component';
@@ -38,65 +40,64 @@ export interface Fehlerseite {
 export type ComplexFormRoute = Route & {
     data? : Fehlerseite | RouteData;
 }
-
-const routenFuerSchritte : ComplexFormRoute[] = [
+const title                               = 'Vorgang bearbeiten / ';
+const schritteRoutes : ComplexFormRoute[] = [
     {
-        path       : '',
-        redirectTo : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL ],
-        pathMatch  : 'full',
-    },
-    {
-        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL ],
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.MITARBEITER_AUSWAHL ],
         canActivate : [ MerkeSchrittGuard ],
         component   : MitarbeiterAuswahlSeite,
-        data        : { schritt : VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL }
+        title       : TitleService.bearbeitenSchritt( Schritt.MITARBEITER_AUSWAHL ),
+        data        : { schritt : Schritt.MITARBEITER_AUSWAHL }
     },
     {
-        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.BKZ_AUSWAHL ],
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.BKZ_AUSWAHL ],
         canActivate : [ MerkeSchrittGuard ],
         component   : BkzAuswahlSeite,
-        data        : { schritt : VorgangBearbeitenSchritt.BKZ_AUSWAHL }
+        title       : TitleService.bearbeitenSchritt( Schritt.BKZ_AUSWAHL ),
+        data        : { schritt : Schritt.BKZ_AUSWAHL }
     },
     {
-        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.STANDARD_HARDWARE ],
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.STANDARD_HARDWARE ],
         canActivate : [ MerkeSchrittGuard ],
         component   : StandardHardwareSeite,
-        data        : { schritt : VorgangBearbeitenSchritt.STANDARD_HARDWARE }
+        title       : TitleService.bearbeitenSchritt( Schritt.STANDARD_HARDWARE ),
+        data        : { schritt : Schritt.STANDARD_HARDWARE }
     },
     {
-        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.INDIVIDUAL_BESTELLUNG ],
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.INDIVIDUAL_BESTELLUNG ],
         canActivate : [ MerkeSchrittGuard ],
         component   : IndividualBestellungSeite,
-        data        : { schritt : VorgangBearbeitenSchritt.INDIVIDUAL_BESTELLUNG }
+        title       : TitleService.bearbeitenSchritt( Schritt.INDIVIDUAL_BESTELLUNG ),
+        data        : { schritt : Schritt.INDIVIDUAL_BESTELLUNG }
     },
     {
-        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.ABHOLUNG ],
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.ABHOLUNG ],
         canActivate : [ MerkeSchrittGuard ],
         component   : AbholungSeite,
-        data        : { schritt : VorgangBearbeitenSchritt.ABHOLUNG }
+        title       : TitleService.bearbeitenSchritt( Schritt.ABHOLUNG ),
+        data        : { schritt : Schritt.ABHOLUNG }
     },
     {
-        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.LIEFERANSCHRIFT ],
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.LIEFERANSCHRIFT ],
         canActivate : [ MerkeSchrittGuard ],
         component   : LieferanschriftSeite,
-        data        : { schritt : VorgangBearbeitenSchritt.LIEFERANSCHRIFT }
+        title       : TitleService.bearbeitenSchritt( Schritt.LIEFERANSCHRIFT ),
+        data        : { schritt : Schritt.LIEFERANSCHRIFT }
     },
     {
-        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.GENEHMIGUNG ],
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.GENEHMIGUNG ],
         canActivate : [ MerkeSchrittGuard ],
         component   : GenehmigungSeite,
-        data        : { schritt : VorgangBearbeitenSchritt.GENEHMIGUNG }
+        title       : TitleService.bearbeitenSchritt( Schritt.GENEHMIGUNG ),
+        data        : { schritt : Schritt.GENEHMIGUNG }
     },
     {
-        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ VorgangBearbeitenSchritt.ABSCHLUSS ],
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.ABSCHLUSS ],
         canActivate : [ MerkeSchrittGuard ],
         component   : AbschlussSeite,
-        data        : { schritt : VorgangBearbeitenSchritt.ABSCHLUSS }
+        title       : TitleService.bearbeitenSchritt( Schritt.ABSCHLUSS ),
+        data        : { schritt : Schritt.ABSCHLUSS }
     },
-    {
-        path      : '**',
-        component : VorgangBearbeitenFehlerSeite,
-    }
 ];
 
 const routes : ComplexFormRoute[] = [
@@ -104,7 +105,18 @@ const routes : ComplexFormRoute[] = [
         path        : ':vorgangId',
         canActivate : [ VorgangLadenGuard ],
         component   : SeitenLayout,
-        children    : routenFuerSchritte
+        children    : [
+            {
+                path       : '',
+                redirectTo : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.MITARBEITER_AUSWAHL ],
+                pathMatch  : 'full',
+            },
+            ...schritteRoutes,
+            {
+                path      : '**',
+                component : VorgangBearbeitenFehlerSeite,
+            }
+        ]
     },
 ];
 

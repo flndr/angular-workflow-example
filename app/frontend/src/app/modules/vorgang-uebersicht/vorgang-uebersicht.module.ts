@@ -5,6 +5,7 @@ import { Route }            from '@angular/router';
 import { RouterModule }     from '@angular/router';
 import { LayoutModule }     from '../layout/layout.module';
 import { ApiService }       from '../shared/services/api.service';
+import { TitleService }     from '../shared/services/title.service';
 
 import { SharedModule }           from '../shared/shared.module';
 import { VorgangUebersichtSeite } from './view/seiten/vorgang-uebersicht-seite';
@@ -12,7 +13,8 @@ import { VorgangUebersichtSeite } from './view/seiten/vorgang-uebersicht-seite';
 const routes : Route[] = [
     {
         path      : '',
-        component : VorgangUebersichtSeite
+        component : VorgangUebersichtSeite,
+        title     : TitleService.VORGANG_UEBERSICHT
     },
 ];
 
