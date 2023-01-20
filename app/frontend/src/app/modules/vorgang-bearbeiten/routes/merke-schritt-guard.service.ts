@@ -5,16 +5,18 @@ import { UrlTree }                from '@angular/router';
 import { Router }                 from '@angular/router';
 import { Injectable }             from '@angular/core';
 
-import { Vorgang } from '@tom/models';
+import { Vorgang }                  from '@tom/models';
+import { VorgangBearbeitenSchritt } from '../../shared/model/VorgangBearbeitenSchritt';
 
 import { ApiService }        from '../../shared/services/api.service';
 import { FormService }       from '../services/form.service';
 import { NavigationService } from '../services/navigation.service';
+import { RouteData }         from './models/RouteData';
 
 @Injectable( {
     providedIn : 'root'
 } )
-export class VorgangLadenGuard implements CanActivate {
+export class MerkeSchrittGuard implements CanActivate {
     
     constructor(
         private router : Router,
@@ -24,17 +26,14 @@ export class VorgangLadenGuard implements CanActivate {
     ) {}
     
     async canActivate( route : ActivatedRouteSnapshot, state : RouterStateSnapshot ) : Promise<boolean | UrlTree> {
-        //console.log( route.url[ 0 ], route.data );
-        try {
-            const vorgangId         = route.url[ 0 ].path;
-            const vorgang : Vorgang = await this.apiService.vorgangLaden( vorgangId );
-            this.navigationService.setVorgangId( vorgang.id );
-            await this.formService.setVorgang( vorgang );
-            return true;
-        } catch ( e ) {
-            console.error( e );
-            return false;
-        }
         
+        const routeData                = route.data as unknown as RouteData;
+        const isValidBearbeitenSchritt = Object.values( VorgangBearbeitenSchritt ).includes( routeData.schritt );
+        
+        if ( isValidBearbeitenSchritt ) {
+            this.formService.setSchritt( routeData.schritt );
+            return true;
+        }
+        return false;
     }
 }

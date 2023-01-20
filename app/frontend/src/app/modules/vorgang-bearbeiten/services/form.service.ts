@@ -60,7 +60,10 @@ export class FormService {
     };
     
     private _vorgang : Vorgang | null = null;
-    private _showErrors : boolean     = false;
+    
+    private _schritt : VorgangBearbeitenSchritt | null = null;
+    
+    private _showErrors : boolean = false;
     
     private _formularDaten : VorgangBearbeitenForm = defaultValues;
     private _constraints : ConstraintsPerProperty  = [];
@@ -135,6 +138,10 @@ export class FormService {
     async setVorgang( v : Vorgang ) {
         this._vorgang = v;
         await this.updateFormValues( v, { ignoreAdditionalFields : true } );
+    }
+    
+    setSchritt( s : VorgangBearbeitenSchritt ) {
+        this._schritt = s;
     }
     
     async updateFormValues(
