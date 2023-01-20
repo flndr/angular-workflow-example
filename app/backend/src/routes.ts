@@ -6,11 +6,13 @@ import { NextFunction } from 'express-serve-static-core';
 import { ApiUrl } from '@tom/models';
 
 import { ApiController } from './services/ApiController';
+import { between }       from './util/between';
+import { sleep }         from './util/sleep';
 
 const apiController = new ApiController();
 
 const simulateSlowBackend = async ( req : Request, res : Response, next : NextFunction ) => {
-    await pause( between( 0, 1 ) );
+    await sleep( between( 0, 1 ) );
     next();
 }
 
@@ -24,13 +26,4 @@ export const addRoutes = ( app : Express ) => {
     app.get( ApiUrl.MITARBEITER, simulateSlowBackend, apiController.mitarbeiterLaden.bind( apiController ) );
 }
 
-function pause( ms : number ) : Promise<void> {
-    return new Promise( resolve => {
-        setTimeout( resolve, ms );
-    } );
-}
-
-function between( min : number, max : number ) : number {
-    return Math.floor( Math.random() * ( max - min + 1 ) + min )
-}
 

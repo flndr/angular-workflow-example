@@ -60,6 +60,7 @@ export class FormService {
     };
     
     private _vorgang : Vorgang | null = null;
+    private _isValidating : boolean   = false;
     
     private _schritt : VorgangBearbeitenSchritt | null = null;
     
@@ -78,15 +79,15 @@ export class FormService {
         [ VorgangBearbeitenSchritt.ABSCHLUSS ]             : newNavItem(),
     };
     
-    get vorgang() : Vorgang {
+    get vorgang() {
         if ( !this._vorgang ) {
             throw new Error( 'Vorgang wurde noch nicht gesetzt!' );
         }
         return this._vorgang;
     }
     
-    get formularDaten() : VorgangBearbeitenForm {
-        return this._formularDaten;
+    get isValidating() {
+        return this._isValidating;
     }
     
     get showErrors() {
@@ -149,6 +150,8 @@ export class FormService {
         option : { ignoreAdditionalFields : boolean } = { ignoreAdditionalFields : false }
     ) {
         
+        this._isValidating = true;
+        
         for ( const property in valueByProperty ) {
             if ( objectPath.has( this._formularDaten, property ) ) {
                 objectPath.set( this._formularDaten, property, valueByProperty[ property ] );
@@ -179,7 +182,8 @@ export class FormService {
         } );
         
         console.log( this._constraints );
-        
+    
+        this._isValidating = false;
     }
     
 }

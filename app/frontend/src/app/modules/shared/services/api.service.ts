@@ -4,6 +4,7 @@ import { MitarbeiterLadenResponse }      from '@tom/models';
 import { StandardHardwareArtikel }       from '@tom/models';
 import { StandardHardwareLadenResponse } from '@tom/models';
 import { VorgangLadenResponse }          from '@tom/models';
+import axios                             from 'axios';
 import { firstValueFrom }                from 'rxjs';
 
 import { VorgaengeLadenResponse }  from '@tom/models';
@@ -43,8 +44,8 @@ export class ApiService {
     }
     
     private async get<Response>( url : string ) : Promise<Response> {
-        const response = await firstValueFrom( this.http.get( this.baseUrl + url ) );
-        return response as unknown as Response;
+        const response = await axios.get( this.baseUrl + url );
+        return response.data as unknown as Response
     }
     
     private async post<Response, Request>( url : string, body : Request ) : Promise<Response> {
@@ -53,3 +54,5 @@ export class ApiService {
     }
     
 }
+
+// export const apiService = new ApiService();

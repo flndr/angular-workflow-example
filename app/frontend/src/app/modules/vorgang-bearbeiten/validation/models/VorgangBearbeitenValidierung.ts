@@ -1,4 +1,5 @@
 import { Type }           from 'class-transformer';
+import { Validate }       from 'class-validator';
 import { Matches }        from 'class-validator';
 import { Equals }         from 'class-validator';
 import { IsNotEmpty }     from 'class-validator';
@@ -9,6 +10,7 @@ import { ValidateNested } from 'class-validator';
 import { IndividualBestellung } from '@tom/models';
 import { AbholungArt }          from '@tom/models';
 import { Lieferanschrift }      from '@tom/models';
+import { BackendBkzValidator }  from '../validators/BackendBkzValidator';
 
 import { IndividualBestellungValidation }     from './dtos/IndividualBestellungValidation';
 import { LieferanschriftValidation }          from './dtos/LieferanschriftValidation';
@@ -31,6 +33,7 @@ export class VorgangBearbeitenValidierung extends ExtraFieldsValidationOptions i
     beguenstigterKuerzel : string;
     
     @IsNotEmpty()
+    @Validate( BackendBkzValidator )
     bkz : string;
     
     @Equals( true )
