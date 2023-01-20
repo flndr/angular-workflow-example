@@ -19,6 +19,7 @@ import { VorgangBearbeitenForm }              from './VorgangBearbeitenForm';
 
 export class ExtraFieldsValidationOptions {
     isManager : boolean;
+    runBackendValidation : boolean;
 }
 
 const kuerzelPattern = '[A-Z]{3}';

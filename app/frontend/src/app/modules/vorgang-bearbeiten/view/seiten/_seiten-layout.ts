@@ -1,7 +1,9 @@
+import { OnInit }    from '@angular/core';
 import { Component } from '@angular/core';
 
 import { VorgangBearbeitenSchritt } from '../../../shared/model/VorgangBearbeitenSchritt';
 import { UrlService }               from '../../../shared/services/url.service';
+import { NavigationForUi }          from '../../model/Navigation';
 import { FormService }              from '../../services/form.service';
 
 @Component( {
@@ -121,15 +123,38 @@ export class SeitenLayout {
     
     showJson = false;
     
+    _nicerConstraints : Record<string, Record<string, string>> = {}
+    _navigationForUi : NavigationForUi;
+    
     constructor(
         public formService : FormService,
         public urlService : UrlService,
     ) { }
     
+    //ngOnInit() : void {
+    //    this.formService.constraints$.subscribe( constraints => {
+    //        this._nicerConstraints = {};
+    //        constraints.forEach( c => this._nicerConstraints[ c.property ] = c.constraints );
+    //    } );
+    //    this.formService.navigation$.subscribe( navigation => {
+    //        this._navigationForUi = Object.values( VorgangBearbeitenSchritt ).map( schritt => {
+    //            return {
+    //                ...navigation[ schritt ],
+    //                schritt
+    //            }
+    //        } );
+    //        console.log('this._navigationForUi', navigation);
+    //    } );
+    //}
+    
     get constraintsNicer() {
         const nicer : Record<string, Record<string, string>> = {};
         this.formService.constraints.forEach( c => nicer[ c.property ] = c.constraints );
         return nicer;
+    }
+    
+    get navigationForUi() {
+        return this._navigationForUi;
     }
     
     getRouteTo( schritt : VorgangBearbeitenSchritt ) : string {

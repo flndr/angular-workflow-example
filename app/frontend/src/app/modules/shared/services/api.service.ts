@@ -45,12 +45,12 @@ export class ApiService {
     
     private async get<Response>( url : string ) : Promise<Response> {
         const response = await axios.get( this.baseUrl + url );
-        return response.data as unknown as Response
+        return response.data as unknown as Response;
     }
     
     private async post<Response, Request>( url : string, body : Request ) : Promise<Response> {
-        const response = await firstValueFrom( this.http.post( this.baseUrl + url, body ) );
-        return response as unknown as Response;
+        const response = await axios.post( this.baseUrl + url, body );
+        return response.data as unknown as Response;
     }
     
 }

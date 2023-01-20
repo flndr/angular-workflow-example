@@ -28,7 +28,7 @@ export const connectForm = async (
     
     const setFormGroupErrors = () => {
         const constraints : ConstraintsPerProperty = formService.getConstraints( fieldNames );
-        console.log( fieldNames.join( ', ' ), constraints );
+        console.log( 'setFormGroupErrors', constraints );
         constraints.forEach( c => {
             const control = formGroup.controls[ c.property ];
             if ( control ) {
