@@ -1,22 +1,18 @@
-import { Injectable }  from '@angular/core';
-import { FormControl } from '@angular/forms';
-import objectPath      from 'object-path';
-
-import { Vorgang }         from '@tom/models';
+import objectPath          from 'object-path';
 import { BehaviorSubject } from 'rxjs';
 import { debounce }        from 'throttle-debounce';
+import { Injectable }      from '@angular/core';
+import { FormControl }     from '@angular/forms';
 
-import { VorgangBearbeitenSchritt }     from '../../shared/model/VorgangBearbeitenSchritt';
-import { NavigationForUi }              from '../model/Navigation';
-import { NavigationItem }               from '../model/Navigation';
-import { Navigation }                   from '../model/Navigation';
-import { defaultValues }                from '../validation/defaultValues';
-import { ConstraintsPerProperty }       from '../validation/getConstraints';
-import { VorgangBearbeitenForm }        from '../validation/models/VorgangBearbeitenForm';
-import { VorgangBearbeitenValidierung } from '../validation/models/VorgangBearbeitenValidierung';
-import { validate }                     from '../validation/validate';
+import { Vorgang } from '@tom/models';
 
-const debouncedValidate = debounce( 1000, validate, { atBegin : false } );
+import { VorgangBearbeitenSchritt } from '../../shared/model/VorgangBearbeitenSchritt';
+import { NavigationItem }           from '../model/Navigation';
+import { Navigation }               from '../model/Navigation';
+import { defaultValues }            from '../validation/defaultValues';
+import { ConstraintsPerProperty }   from '../validation/getConstraints';
+import { VorgangBearbeitenForm }    from '../validation/models/VorgangBearbeitenForm';
+import { validate }                 from '../validation/validate';
 
 const newNavItem = () : NavigationItem => ( {
     isValid    : false,
@@ -72,7 +68,7 @@ export class FormService {
     private _showErrors : boolean = false;
     
     private _formularDaten : VorgangBearbeitenForm = defaultValues;
-    private _constraints : ConstraintsPerProperty  = [];
+    //private _constraints : ConstraintsPerProperty  = [];
     private _navigation : Navigation               = {
         [ VorgangBearbeitenSchritt.ABHOLUNG ]              : newNavItem(),
         [ VorgangBearbeitenSchritt.BKZ_AUSWAHL ]           : newNavItem(),
@@ -87,7 +83,9 @@ export class FormService {
     private _debouncedValidationsRunning = 0;
     private _debouncedValidation;
     
-    //private _constraintsSubject = new BehaviorSubject<ConstraintsPerProperty>( [] );
+    private _debounceValidation = false;
+    
+    private _constraintsSubject = new BehaviorSubject<ConstraintsPerProperty>( [] );
     //
     //private _navigationSubject = new BehaviorSubject<Navigation>( {
     //    [ VorgangBearbeitenSchritt.ABHOLUNG ]              : newNavItem(),
@@ -100,11 +98,12 @@ export class FormService {
     //    [ VorgangBearbeitenSchritt.ABSCHLUSS ]             : newNavItem(),
     //} );
     //
-    //public constraints$ = this._constraintsSubject.asObservable();
+    public constraints$ = this._constraintsSubject.asObservable();
+    
     //public navigation$  = this._navigationSubject.asObservable();
     
     constructor() {
-        this._debouncedValidation = debounce( 3000, this.validate.bind( this ), { atBegin : false } );
+        this._debouncedValidation = debounce( 2000, this.validate.bind( this ), { atBegin : false } );
     }
     
     get vorgang() {
@@ -114,29 +113,33 @@ export class FormService {
         return this._vorgang;
     }
     
-    get isValidating() {
-        return this._isValidating;
+    get debounceValidation() {
+        return this._debounceValidation;
     }
     
     get showErrors() {
         return this._showErrors;
     }
     
-    get constraints() {
-        return this._constraints;
+    //
+    //get constraints() {
+    //    return this._constraints;
+    //}
+    
+    getAllConstraints() {
+        return this._constraintsSubject.getValue();
     }
     
-    get navigation() : NavigationForUi {
-        return Object.values( VorgangBearbeitenSchritt ).map( schritt => {
-            return {
-                ...this._navigation[ schritt ],
-                schritt
-            }
-        } );
+    get navigation() : Navigation {
+        return this._navigation;
     }
     
     toggleShowErrors() : void {
         this._showErrors = !this._showErrors;
+    }
+    
+    toggleDebounceValidation() : void {
+        this._debounceValidation = !this._debounceValidation;
     }
     
     setShowErrors( show : boolean ) : void {
@@ -157,7 +160,7 @@ export class FormService {
     }
     
     getConstraints( fields : string[] ) : ConstraintsPerProperty {
-        return this._constraints.filter( c => fields.includes( c.property ) );
+        return this.getAllConstraints().filter( c => fields.includes( c.property ) );
     }
     
     hasConstraints( fields : string[] ) : boolean {
@@ -179,7 +182,7 @@ export class FormService {
         
         this._isValidating = true;
         
-        this._constraints = await validate( {
+        const constraints = await validate( {
             ...this._formularDaten,
             isManager            : false, // TODO set real value
             runBackendValidation : false, // TODO set real value
@@ -188,19 +191,18 @@ export class FormService {
         const navigation = JSON.parse( JSON.stringify( this._navigation ) ) as Navigation;
         
         Object.keys( FormService.SCHRITTE ).forEach( key => {
-            const schritt     = key as VorgangBearbeitenSchritt;
-            const constraints = this.getConstraints( Object.keys( FormService.SCHRITTE[ schritt ] ) );
+            const schritt = key as VorgangBearbeitenSchritt;
+            const fields  = Object.keys( FormService.SCHRITTE[ schritt ] );
             
-            navigation[ schritt ].isInvalid  = constraints.length > 0;
-            navigation[ schritt ].isValid    = constraints.length === 0;
-            navigation[ schritt ].errorCount = constraints.length;
+            const constraintsForSchritt      = constraints.filter( c => fields.includes( c.property ) );
+            navigation[ schritt ].isInvalid  = constraintsForSchritt.length > 0;
+            navigation[ schritt ].isValid    = constraintsForSchritt.length === 0;
+            navigation[ schritt ].errorCount = constraintsForSchritt.length;
         } );
         
         this._navigation = navigation;
         
-        this._formularDaten = {
-            ...this._formularDaten
-        };
+        this._constraintsSubject.next( constraints );
         
         //console.log( constraints );
         //console.log( navigation );
@@ -228,8 +230,11 @@ export class FormService {
             ...this._formularDaten
         };
         
-        await this.validate();
-        //await this._debouncedValidation();
+        if ( this._debounceValidation ) {
+            await this._debouncedValidation();
+        } else {
+            await this.validate();
+        }
     }
     
 }

@@ -1,25 +1,17 @@
-import { HttpClient }                    from '@angular/common/http';
-import { Injectable }                    from '@angular/core';
+import axios from 'axios';
+
 import { MitarbeiterLadenResponse }      from '@tom/models';
 import { StandardHardwareArtikel }       from '@tom/models';
 import { StandardHardwareLadenResponse } from '@tom/models';
 import { VorgangLadenResponse }          from '@tom/models';
-import axios                             from 'axios';
-import { firstValueFrom }                from 'rxjs';
+import { VorgaengeLadenResponse }        from '@tom/models';
+import { VorgangSpeichernRequest }       from '@tom/models';
+import { Vorgang }                       from '@tom/models';
+import { ApiUrl }                        from '@tom/models';
 
-import { VorgaengeLadenResponse }  from '@tom/models';
-import { VorgangSpeichernRequest } from '@tom/models';
-import { Vorgang }                 from '@tom/models';
-import { ApiUrl }                  from '@tom/models';
-
-@Injectable( {
-    providedIn : 'root',
-} )
 export class ApiService {
     
     private baseUrl = 'http://localhost:4000';
-    
-    constructor( private http : HttpClient ) {}
     
     public async vorgaengeLaden() : Promise<Vorgang[]> {
         const res = await this.get<VorgaengeLadenResponse>( ApiUrl.VORGAENGE );
@@ -55,4 +47,4 @@ export class ApiService {
     
 }
 
-// export const apiService = new ApiService();
+export const apiService = new ApiService();

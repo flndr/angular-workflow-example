@@ -1,8 +1,7 @@
 import { FormControl } from '@angular/forms';
 import { FormGroup }   from '@angular/forms';
 
-import { FormService }            from '../services/form.service';
-import { ConstraintsPerProperty } from '../validation/getConstraints';
+import { FormService } from '../services/form.service';
 
 export const connectForm = async (
     formService : FormService,
@@ -27,18 +26,16 @@ export const connectForm = async (
     };
     
     const setFormGroupErrors = () => {
-        const constraints : ConstraintsPerProperty = formService.getConstraints( fieldNames );
-        console.log( 'setFormGroupErrors', constraints );
-        constraints.forEach( c => {
-            const control = formGroup.controls[ c.property ];
+        Object.keys( fields ).forEach( fieldName => {
+            const control     = formGroup.controls[ fieldName ];
+            const constraints = formService.getConstraints( [ fieldName ] )
             if ( control ) {
-                control.setErrors( c.constraints );
+                const errors = constraints.length === 1 ? constraints[ 0 ].constraints : null;
+                control.setErrors( errors );
                 // setTimeout? --> https://github.com/angular/angular/issues/38191
                 setTimeout( () => {
-                    control.setErrors( c.constraints );
-                }, 0 );
-            } else {
-                console.error( `Konnte Validierung für FormControl  "${ c.property }" nicht setzen, weil nicht gefunden.` );
+                    control.setErrors( errors );
+                }, 5 );
             }
         } );
     }
@@ -53,7 +50,11 @@ export const connectForm = async (
         await formService.updateFormValues( formValues );
         setFormGroupErrors();
     } );
+    formService.constraints$.subscribe( () => {
+        setFormGroupErrors();
+    } );
     
     formGroup.markAsDirty();
     
 }
+

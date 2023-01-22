@@ -15,6 +15,7 @@ export interface NavigationItem {
 
 export type Navigation = Record<VorgangBearbeitenSchritt, NavigationItem>;
 export type NavigationForUi = Array<NavigationItem & { schritt : VorgangBearbeitenSchritt }>;
+export type ConstraintsByField = Record<string, Record<string, string>>;
 
 // Welche Aktionen kann man durchführen?
 

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 
 import { VorgangBearbeitenSchritt } from '../../../shared/model/VorgangBearbeitenSchritt';
 import { UrlService }               from '../../../shared/services/url.service';
+import { ConstraintsByField }       from '../../model/Navigation';
 import { NavigationForUi }          from '../../model/Navigation';
 import { FormService }              from '../../services/form.service';
 
@@ -39,7 +40,7 @@ import { FormService }              from '../../services/form.service';
 
                 <div slot="center-left" style="width: 16rem">
                     <div class="list-group">
-                        <a *ngFor="let navItem of formService.navigation; index as i"
+                        <a *ngFor="let navItem of navigationForUi; index as i"
                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                            [ngClass]="{ 'list-group-item-danger' : formService.showErrors && navItem.isInvalid,
                                         'list-group-item-success' : false && formService.showErrors && navItem.isValid  }"
@@ -80,6 +81,16 @@ import { FormService }              from '../../services/form.service';
                     <div class="form-check form-switch">
                         <input class="form-check-input"
                                type="checkbox"
+                               id="checkbox-toggle-debounce"
+                               [value]="formService.debounceValidation"
+                               (change)="formService.toggleDebounceValidation()"/>
+                        <label class="form-check-label user-select-none" for="checkbox-toggle-debounce">
+                            Validierung um 2s verzögern (debounce)
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
                                id="checkbox-toggle-json"
                                [(ngModel)]="showJson"/>
                         <label class="form-check-label user-select-none" for="checkbox-toggle-json">
@@ -97,7 +108,7 @@ import { FormService }              from '../../services/form.service';
                         <div class="card w-50">
                             <div class="card-header">Aktuelle Restriktionen</div>
                             <div class="card-body font-monospace" style="font-size: 13px;">
-                                <ngx-json-viewer [json]="constraintsNicer"></ngx-json-viewer>
+                                <ngx-json-viewer [json]="nicerConstraints"></ngx-json-viewer>
                             </div>
                         </div>
 
@@ -108,7 +119,7 @@ import { FormService }              from '../../services/form.service';
         </div>
     `,
 } )
-export class SeitenLayout {
+export class SeitenLayout implements OnInit {
     
     readonly labelBySchritt : Record<VorgangBearbeitenSchritt, string> = {
         ABHOLUNG              : 'Abholung',
@@ -123,7 +134,7 @@ export class SeitenLayout {
     
     showJson = false;
     
-    _nicerConstraints : Record<string, Record<string, string>> = {}
+    _nicerConstraints : ConstraintsByField = {}
     _navigationForUi : NavigationForUi;
     
     constructor(
@@ -131,26 +142,22 @@ export class SeitenLayout {
         public urlService : UrlService,
     ) { }
     
-    //ngOnInit() : void {
-    //    this.formService.constraints$.subscribe( constraints => {
-    //        this._nicerConstraints = {};
-    //        constraints.forEach( c => this._nicerConstraints[ c.property ] = c.constraints );
-    //    } );
-    //    this.formService.navigation$.subscribe( navigation => {
-    //        this._navigationForUi = Object.values( VorgangBearbeitenSchritt ).map( schritt => {
-    //            return {
-    //                ...navigation[ schritt ],
-    //                schritt
-    //            }
-    //        } );
-    //        console.log('this._navigationForUi', navigation);
-    //    } );
-    //}
+    ngOnInit() : void {
+        this.formService.constraints$.subscribe( constraints => {
+            this._nicerConstraints = {};
+            constraints.forEach( c => this._nicerConstraints[ c.property ] = c.constraints );
+            
+            this._navigationForUi = Object.values( VorgangBearbeitenSchritt ).map( schritt => {
+                return {
+                    ...this.formService.navigation[ schritt ],
+                    schritt
+                }
+            } );
+        } );
+    }
     
-    get constraintsNicer() {
-        const nicer : Record<string, Record<string, string>> = {};
-        this.formService.constraints.forEach( c => nicer[ c.property ] = c.constraints );
-        return nicer;
+    get nicerConstraints() {
+        return this._nicerConstraints;
     }
     
     get navigationForUi() {

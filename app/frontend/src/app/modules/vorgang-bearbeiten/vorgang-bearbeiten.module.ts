@@ -40,7 +40,7 @@ export interface Fehlerseite {
 export type ComplexFormRoute = Route & {
     data? : Fehlerseite | RouteData;
 }
-const title                               = 'Vorgang bearbeiten / ';
+
 const schritteRoutes : ComplexFormRoute[] = [
     {
         path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.MITARBEITER_AUSWAHL ],

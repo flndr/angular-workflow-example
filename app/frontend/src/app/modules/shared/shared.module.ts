@@ -5,8 +5,8 @@ import { FormsModule }         from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink }          from '@angular/router';
 
-import { HeadcrumbComponent }     from './components/headcrumb.component';
-import { StatusBadgeComponent }   from './components/statusbadge.component';
+import { HeadcrumbComponent }   from './components/headcrumb.component';
+import { StatusBadgeComponent } from './components/statusbadge.component';
 
 @NgModule( {
     declarations : [
@@ -15,7 +15,7 @@ import { StatusBadgeComponent }   from './components/statusbadge.component';
     ],
     exports      : [
         HeadcrumbComponent,
-        StatusBadgeComponent,
+        StatusBadgeComponent
     ],
     imports      : [
         RouterLink,
