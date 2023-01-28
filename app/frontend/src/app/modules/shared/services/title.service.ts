@@ -9,7 +9,8 @@ export class TitleService {
     
     static BASE = 'Workflow Example';
     
-    static VORGANG_UEBERSICHT = 'Vorgang Übersicht - ' + TitleService.BASE;
+    static VORGANG_UEBERSICHT      = 'Vorgang Übersicht - ' + TitleService.BASE;
+    static VORGANG_ZUSAMMENFASSUNG = 'Vorgang Zusammenfassung - ' + TitleService.BASE;
     
     static bearbeitenSchritt( schritt : VorgangBearbeitenSchritt ) : string {
         const BEARBEITEN_SCHRITT : Record<Partial<VorgangBearbeitenSchritt>, string> = {

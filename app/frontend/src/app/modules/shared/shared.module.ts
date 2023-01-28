@@ -6,16 +6,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink }          from '@angular/router';
 
 import { HeadcrumbComponent }   from './components/headcrumb.component';
+import { HeadlineComponent }    from './components/headline-component';
 import { StatusBadgeComponent } from './components/statusbadge.component';
 
 @NgModule( {
     declarations : [
         HeadcrumbComponent,
         StatusBadgeComponent,
+        HeadlineComponent
     ],
     exports      : [
         HeadcrumbComponent,
-        StatusBadgeComponent
+        StatusBadgeComponent,
+        HeadlineComponent
     ],
     imports      : [
         RouterLink,

@@ -12,6 +12,10 @@ const routes : Routes = [
         path         : UrlService.MODUL_URL.VORGANG_BEARBEITEN,
         loadChildren : () => import('./modules/vorgang-bearbeiten/vorgang-bearbeiten.module').then( m => m.VorgangBearbeitenModule )
     },
+    {
+        path         : UrlService.MODUL_URL.VORGANG_ZUSAMMENFASSUNG,
+        loadChildren : () => import('./modules/vorgang-zusammenfassung/vorgang-zusammenfassung.module').then( m => m.VorgangZusammenfassungModule )
+    },
 ];
 
 @NgModule( {

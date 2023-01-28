@@ -1,13 +1,15 @@
 {
     "compilerOptions" : {
-        "target" : "ES6",
-        "module" : "CommonJS",
-        "outDir" : "./build",
-        "esModuleInterop" : true,
-        "strict" : true,
-        "experimentalDecorators" : true,
-        "resolveJsonModule" : true,
-        "lib": [
+        "target"                       : "ES6",
+        "module"                       : "CommonJS",
+        "outDir"                       : "./build",
+        "strict"                       : true,
+        "strictPropertyInitialization" : false,
+        "esModuleInterop"              : true,
+        "emitDecoratorMetadata"        : true,
+        "experimentalDecorators"       : true,
+        "resolveJsonModule"            : true,
+        "lib"                          : [
             "esnext"
         ]
     }

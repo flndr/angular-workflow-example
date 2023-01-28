@@ -15,9 +15,9 @@ export class UrlService {
     };
     
     static SEITEN_URL = {
-        VORGANG_BEARBEITEN : 'vorgang-bearbeiten',
-        VORGANG_DETAILS    : 'vorgang-details',
-        FEHLER             : 'fehler',
+        VORGANG_BEARBEITEN      : 'vorgang-bearbeiten',
+        VORGANG_ZUSAMMENFASSUNG : 'vorgang-zusammenfassung',
+        FEHLER                  : 'fehler',
     };
     
     static ERSTER_SCHRITT : VorgangBearbeitenSchritt = VorgangBearbeitenSchritt.MITARBEITER_AUSWAHL;
@@ -40,6 +40,13 @@ export class UrlService {
             schritt
             ? UrlService.BEARBEITUNG_SCHRITT_URL[ schritt ]
             : UrlService.BEARBEITUNG_SCHRITT_URL[ UrlService.ERSTER_SCHRITT ],
+        ].join( '/' );
+    }
+    
+    routeToVorgangZusammenfassung( vorgangId : string ) : string {
+        return '/' + [
+            UrlService.SEITEN_URL.VORGANG_ZUSAMMENFASSUNG,
+            vorgangId,
         ].join( '/' );
     }
     

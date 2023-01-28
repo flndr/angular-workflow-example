@@ -1,5 +1,6 @@
-import { OnInit }    from '@angular/core';
-import { Component } from '@angular/core';
+import { OnInit }        from '@angular/core';
+import { Component }     from '@angular/core';
+import { VorgangStatus } from '@tom/models';
 
 import { Vorgang } from '@tom/models';
 
@@ -22,7 +23,9 @@ import { UrlService } from '../../../shared/services/url.service';
     template : `
         <div class="container">
 
-            <h1>Übersicht aller Vorgänge</h1>
+            <app-headline
+                    headline="Übersicht aller Vorgänge"
+            ></app-headline>
 
             <div class="spinner-border mt-5" role="status" *ngIf="isLoading">
                 <span class="visually-hidden">Loading...</span>
@@ -59,15 +62,20 @@ import { UrlService } from '../../../shared/services/url.service';
                             {{ vorgang.erstellerKuerzel }}
                         </td>
                         <td>
-                            <a class="btn btn-primary"
-                               [routerLink]="urlService.routeToVorgangBearbeiten(vorgang.id)">
-                                bearbeiten
+                            <a class="btn"
+                               [ngClass]="{ 'btn-primary'   : vorgang.status === VorgangStatus.ZWISCHENGESPEICHERT,
+                                            'btn-secondary' : vorgang.status !== VorgangStatus.ZWISCHENGESPEICHERT }"
+                               [routerLink]="vorgang.status === VorgangStatus.ZWISCHENGESPEICHERT
+                                    ? urlService.routeToVorgangBearbeiten(vorgang.id)
+                                    : urlService.routeToVorgangZusammenfassung(vorgang.id)">
+                                {{ vorgang.status === VorgangStatus.ZWISCHENGESPEICHERT
+                                    ? 'Bearbeiten'
+                                    : 'Details' }}
                             </a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-
 
                 <button class="btn btn-primary">neuen Vorgang anlegen</button>
             </div>
@@ -77,6 +85,7 @@ export class VorgangUebersichtSeite implements OnInit {
     
     private _isLoading : boolean   = true;
     private _vorgaenge : Vorgang[] = [];
+    VorgangStatus = VorgangStatus;
     
     constructor(
         public apiService : ApiService,

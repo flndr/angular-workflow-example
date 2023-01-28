@@ -16,26 +16,19 @@ import { FormService }              from '../../services/form.service';
                 --ngx-json-font-family : 11px;
 
             }
-
-            .top {
-                display         : flex;
-                align-items     : baseline;
-                justify-content : space-between;
-                border-bottom   : 1px solid #d3d3d3;
-                margin          : 3rem 0;
-            }
-        
+            
         `
     ],
     template : `
         <div class="container">
             <app-holy-grail-layout>
 
-                <div slot="top" class="top">
-                    <h1 class="d-inline">
-                        Vorgang bearbeiten
-                    </h1>
-                    <a [routerLink]="'/'">zurück zur Übersicht</a>
+                <div slot="top">
+                    <app-headline
+                        headline="Vorgang bearbeiten"
+                        routerLink="/"
+                        routerLinkLabel="zurück zur Übersicht"
+                    ></app-headline>
                 </div>
 
                 <div slot="center-left" style="width: 16rem">
