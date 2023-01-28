@@ -36,6 +36,7 @@
             "allowedCommonJsDependencies": [
                 "@tom/models",
                 "object-path",
+                "form-data",
                 "validator"
             ]
           },

@@ -10,14 +10,6 @@ import { UrlService } from '../../../shared/services/url.service';
 @Component( {
     styles   : [
         `
-            .table td {
-                vertical-align : middle;
-            }
-
-            .table td:last-child {
-                text-align : right;
-            }
-        
         `
     ],
     template : `
