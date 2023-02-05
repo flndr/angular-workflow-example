@@ -7,7 +7,9 @@
     "dev": "npx nodemon src/server.ts --ignore cache/ --ignore uploads/"
   },
   "nodemonConfig": {
-    "watch": "src/**/*.ts",
+    "watch": [
+        "src/**/*.ts"
+    ],
     "execMap": {
       "ts": "ts-node"
     }
@@ -16,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tom/models": "file:../models",
+    "@tom/models": "workspace:../models",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "express": "^4.17.3",
@@ -29,8 +31,10 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/express-serve-static-core": "^4.17.33",
     "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.24",
     "@types/uuid": "^9.0.0",

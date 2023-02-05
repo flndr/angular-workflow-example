@@ -22,7 +22,7 @@
     "@ng-bootstrap/ng-bootstrap": "^14.0.0",
     "@ng-select/ng-select": "^10.0.3",
     "@popperjs/core": "^2.11.6",
-    "@tom/models": "file:../models",
+    "@tom/models": "workspace:../models",
     "axios": "^1.2.3",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
