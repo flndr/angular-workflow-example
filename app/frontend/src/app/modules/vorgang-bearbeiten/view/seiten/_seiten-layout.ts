@@ -1,5 +1,7 @@
-import { OnInit }    from '@angular/core';
-import { Component } from '@angular/core';
+import { OnInit }         from '@angular/core';
+import { Component }      from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Router }         from '@angular/router';
 
 import { VorgangBearbeitenSchritt } from '../../../shared/model/VorgangBearbeitenSchritt';
 import { UrlService }               from '../../../shared/services/url.service';
@@ -12,11 +14,13 @@ import { FormService }              from '../../services/form.service';
         `
             .container {
                 height                 : 100%;
-
                 --ngx-json-font-family : 11px;
-
             }
-            
+
+            .is-active {
+                font-weight : bold;
+            }
+
         `
     ],
     template : `
@@ -31,13 +35,14 @@ import { FormService }              from '../../services/form.service';
                     ></app-headline>
                 </div>
 
-                <div slot="center-left" style="width: 16rem">
+                <div slot="center-left" style="width: 17rem">
                     <div class="list-group">
                         <a *ngFor="let navItem of navigationForUi; index as i"
                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                            [ngClass]="{ 'list-group-item-danger' : formService.showErrors && navItem.isInvalid,
                                         'list-group-item-success' : false && formService.showErrors && navItem.isValid  }"
-                           [routerLink]="getRouteTo(navItem.schritt)">
+                           [routerLink]="getRouteTo(navItem.schritt)"
+                           routerLinkActive="is-active">
                             {{i + 1}}. {{labelBySchritt[ navItem.schritt ]}}
                             <span *ngIf="formService.showErrors && navItem.isInvalid"
                                   class="badge bg-danger rounded-pill"
@@ -133,6 +138,8 @@ export class SeitenLayout implements OnInit {
     constructor(
         public formService : FormService,
         public urlService : UrlService,
+        private router : Router,
+        private route : ActivatedRoute
     ) { }
     
     ngOnInit() : void {

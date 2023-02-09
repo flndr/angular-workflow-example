@@ -1,9 +1,23 @@
-import { getConstraints }               from './getConstraints';
-import { ConstraintsPerProperty }       from './getConstraints';
-import { VorgangBearbeitenValidierung } from './models/VorgangBearbeitenValidierung';
+import { getConstraints }                 from './getConstraints';
+import { ConstraintsPerProperty }         from './getConstraints';
+import { IndividualBestellungValidation } from './models/dtos/IndividualBestellungValidation';
+import { VorgangBearbeitenValidierung }   from './models/VorgangBearbeitenValidierung';
 
 export const validate = async ( data : VorgangBearbeitenValidierung ) : Promise<ConstraintsPerProperty> => {
-    return getConstraints( VorgangBearbeitenValidierung, data );
+    let constraints = await getConstraints( VorgangBearbeitenValidierung, data );
+    
+    for ( const id of Object.keys( data.individualBestellungen ) ) {
+        constraints = [
+            ...constraints,
+            ...await getConstraints(
+                IndividualBestellungValidation,
+                data.individualBestellungen[ id ],
+                [ 'individualBestellungen', id ].join( '.' )
+            ),
+        ];
+    }
+    
+    return constraints;
 }
 
 /*

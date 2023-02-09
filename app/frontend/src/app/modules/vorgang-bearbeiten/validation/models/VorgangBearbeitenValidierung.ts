@@ -7,10 +7,10 @@ import { IsEnum }         from 'class-validator';
 import { ValidateIf }     from 'class-validator';
 import { ValidateNested } from 'class-validator';
 
-import { IndividualBestellung } from '@tom/models';
-import { AbholungArt }          from '@tom/models';
-import { Lieferanschrift }      from '@tom/models';
-import { BackendBkzValidator }  from '../validators/BackendBkzValidator';
+import { AbholungArt }             from '@tom/models';
+import { Lieferanschrift }         from '@tom/models';
+import { BackendBkzValidator }     from '../validators/BackendBkzValidator';
+import { NestedElementsValidator } from '../validators/NestedElementsValidator';
 
 import { IndividualBestellungValidation }     from './dtos/IndividualBestellungValidation';
 import { LieferanschriftValidation }          from './dtos/LieferanschriftValidation';
@@ -51,9 +51,10 @@ export class VorgangBearbeitenValidierung extends ExtraFieldsValidationOptions i
     @Type( () => StandardHardwareAuswahlValidierung )
     standardHardwareAuswahl : StandardHardwareAuswahlValidierung;
     
-    @ValidateNested()
-    @Type( () => IndividualBestellungValidation )
-    individualBestellungen : Array<IndividualBestellung>;
+    //@ValidateNested()
+    //@Type( () => IndividualBestellungValidation )
+    @NestedElementsValidator(IndividualBestellungValidation)
+    individualBestellungen : Record<string, IndividualBestellungValidation>;
     
     @ValidateIf( ( form : VorgangBearbeitenValidierung ) => form.abholungArt === AbholungArt.KURIER )
     @ValidateNested()

@@ -18,7 +18,9 @@ import { MerkeSchrittGuard }            from './routes/merke-schritt-guard.servi
 import { VorgangLadenGuard }            from './routes/merke-vorgang-id-guard.service';
 import { RouteData }                    from './routes/models/RouteData';
 import { CheckboxFieldComponent }       from './view/components/checkbox-field-component';
+import { NumberFieldComponent }         from './view/components/number-field-component';
 import { TextFieldComponent }           from './view/components/text-field-component';
+import { TextareaComponent }            from './view/components/textarea-component';
 import { FehlerseiteGrund }             from './view/errors/FehlerseiteGrund';
 import { FehlerSeite }                  from './view/seiten/_fehler-seite';
 import { SeitenLayout }                 from './view/seiten/_seiten-layout';
@@ -65,6 +67,13 @@ const schritteRoutes : ComplexFormRoute[] = [
     },
     {
         path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.INDIVIDUAL_BESTELLUNG ],
+        canActivate : [ MerkeSchrittGuard ],
+        component   : IndividualBestellungSeite,
+        title       : TitleService.bearbeitenSchritt( Schritt.INDIVIDUAL_BESTELLUNG ),
+        data        : { schritt : Schritt.INDIVIDUAL_BESTELLUNG }
+    },
+    {
+        path        : UrlService.BEARBEITUNG_SCHRITT_URL[ Schritt.INDIVIDUAL_BESTELLUNG ] + '/:' + UrlService.PARAM_INDIVIDUAL_HARDWARE_ID,
         canActivate : [ MerkeSchrittGuard ],
         component   : IndividualBestellungSeite,
         title       : TitleService.bearbeitenSchritt( Schritt.INDIVIDUAL_BESTELLUNG ),
@@ -152,7 +161,9 @@ const routes : ComplexFormRoute[] = [
         GenehmigungSeite,
         AbschlussSeite,
         CheckboxFieldComponent,
-        TextFieldComponent
+        TextFieldComponent,
+        TextareaComponent,
+        NumberFieldComponent
     ],
     imports      : [
         CommonModule,

@@ -1,4 +1,4 @@
-import { getConstraints }               from './getConstraints';
+import { validate }                     from './validate';
 import { ConstraintsPerProperty }       from './getConstraints';
 import { VorgangBearbeitenValidierung } from './models/VorgangBearbeitenValidierung';
 import { defaultValues }                from './defaultValues';
@@ -9,7 +9,11 @@ describe( 'Form Validation', () => {
     let errors : ConstraintsPerProperty;
     
     beforeAll( () => {
-        data = JSON.parse( JSON.stringify( defaultValues ) );
+        data = {
+            ...JSON.parse( JSON.stringify( defaultValues ) ),
+            isManager            : false,
+            runBackendValidation : false
+        };
     } );
     
     describe( 'Kürzel Begünstigter', () => {
@@ -18,12 +22,12 @@ describe( 'Form Validation', () => {
             
             data.beguenstigterKuerzel = '';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).toEqual( errorListContaining( 'beguenstigterKuerzel', 'isNotEmpty' ) );
             
             data.beguenstigterKuerzel = 'TFL';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).not.toEqual( errorListContaining( 'beguenstigterKuerzel', 'isNotEmpty' ) );
             
         } );
@@ -36,12 +40,12 @@ describe( 'Form Validation', () => {
             
             data.bkz = '';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).toEqual( errorListContaining( 'bkz', 'isNotEmpty' ) );
             
             data.bkz = 'IPU Tischtennis Club';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).not.toEqual( errorListContaining( 'bkz', 'isNotEmpty' ) );
             
         } );
@@ -55,13 +59,13 @@ describe( 'Form Validation', () => {
             data.isManager         = false;
             data.genehmigerKuerzel = '';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).toEqual( errorListContaining( 'genehmigerKuerzel', 'isNotEmpty' ) );
             expect( errors ).toEqual( errorListContaining( 'genehmigerKuerzel', 'matches' ) );
             
             data.genehmigerKuerzel = 'TFL';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).not.toEqual( errorListContaining( 'genehmigerKuerzel', 'isNotEmpty' ) );
             expect( errors ).not.toEqual( errorListContaining( 'genehmigerKuerzel', 'matches' ) );
             
@@ -73,22 +77,22 @@ describe( 'Form Validation', () => {
             
             data.genehmigerKuerzel = '123';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).toEqual( errorListContaining( 'genehmigerKuerzel', 'matches' ) );
             
             data.genehmigerKuerzel = 'AS';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).toEqual( errorListContaining( 'genehmigerKuerzel', 'matches' ) );
             
             data.genehmigerKuerzel = 'abc';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).toEqual( errorListContaining( 'genehmigerKuerzel', 'matches' ) );
             
             data.genehmigerKuerzel = 'TFL';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).not.toEqual( errorListContaining( 'genehmigerKuerzel', 'matches' ) );
             
         } );
@@ -98,11 +102,122 @@ describe( 'Form Validation', () => {
             data.isManager         = true;
             data.genehmigerKuerzel = '';
             
-            errors = await getConstraints( VorgangBearbeitenValidierung, data );
+            errors = await validate( data );
             expect( errors ).not.toEqual( errorListContaining( 'genehmigerKuerzel', 'isNotEmpty' ) );
             
         } );
         
+    } );
+    
+    describe( 'Individual Bestellungen', () => {
+    
+        describe( 'Felder', () => {
+            
+            test( 'Titel darf nicht leer sein', async () => {
+                
+                const bestellungId1 = 'bestellung-id-1';
+                const bestellungId2 = 'bestellung-id-2';
+                
+                const path1 = [ 'individualBestellungen', bestellungId1, 'titel' ].join( '.' );
+                const path2 = [ 'individualBestellungen', bestellungId2, 'titel' ].join( '.' );
+                
+                data.individualBestellungen[ bestellungId1 ] = {
+                    titel        : '',
+                    bestellungId : '',
+                    kosten       : 0,
+                    beschreibung : ''
+                };
+                
+                data.individualBestellungen[ bestellungId2 ] = {
+                    titel        : '',
+                    bestellungId : '',
+                    kosten       : 0,
+                    beschreibung : ''
+                };
+                
+                errors = await validate( data );
+                expect( errors ).toEqual( errorListContaining( path1, 'isNotEmpty' ) );
+                expect( errors ).toEqual( errorListContaining( path2, 'isNotEmpty' ) );
+                
+                data.individualBestellungen[ bestellungId2 ].titel = 'blah';
+                
+                errors = await validate( data );
+                expect( errors ).toEqual( errorListContaining( path1, 'isNotEmpty' ) );
+                expect( errors ).not.toEqual( errorListContaining( path2, 'isNotEmpty' ) );
+                
+            } );
+            
+            test( 'Beschreibung darf nicht leer sein', async () => {
+                
+                const bestellungId1 = 'bestellung-id-1';
+                
+                const path1 = [ 'individualBestellungen', bestellungId1, 'beschreibung' ].join( '.' );
+                
+                data.individualBestellungen[ bestellungId1 ] = {
+                    titel        : '',
+                    bestellungId : '',
+                    kosten       : 0,
+                    beschreibung : ''
+                };
+                
+                errors = await validate( data );
+                expect( errors ).toEqual( errorListContaining( path1, 'isNotEmpty' ) );
+                
+                data.individualBestellungen[ bestellungId1 ].beschreibung = 'blah';
+                
+                errors = await validate( data );
+                expect( errors ).not.toEqual( errorListContaining( path1, 'isNotEmpty' ) );
+                
+            } );
+            
+            test( 'Kosten müssen größer gleich 0 sein', async () => {
+                
+                const bestellungId1 = 'bestellung-id-1';
+                
+                const path1 = [ 'individualBestellungen', bestellungId1, 'kosten' ].join( '.' );
+                
+                data.individualBestellungen[ bestellungId1 ] = {
+                    titel        : '',
+                    bestellungId : '',
+                    kosten       : -1,
+                    beschreibung : ''
+                };
+                
+                errors = await validate( data );
+                
+                expect( errors ).toEqual( errorListContaining( path1, 'min' ) );
+                
+                data.individualBestellungen[ bestellungId1 ].kosten = 5;
+                
+                errors = await validate( data );
+                expect( errors ).not.toEqual( errorListContaining( path1, 'min' ) );
+                
+            } );
+            
+            test( 'Kosten muss eine Zahl sein', async () => {
+                
+                const bestellungId1 = 'bestellung-id-1';
+                
+                const path1 = [ 'individualBestellungen', bestellungId1, 'kosten' ].join( '.' );
+                
+                data.individualBestellungen[ bestellungId1 ] = {
+                    titel        : '',
+                    bestellungId : '',
+                    kosten       : 'etz' as unknown as number,
+                    beschreibung : ''
+                };
+                
+                errors = await validate( data );
+                expect( errors ).toEqual( errorListContaining( path1, 'isNumber' ) );
+                
+                data.individualBestellungen[ bestellungId1 ].kosten = 1.123;
+                
+                errors = await validate( data );
+                expect( errors ).not.toEqual( errorListContaining( path1, 'min' ) );
+                
+            } );
+            
+        } );
     } );
     
 } );

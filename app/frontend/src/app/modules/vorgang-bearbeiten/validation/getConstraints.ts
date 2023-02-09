@@ -12,16 +12,21 @@ export type ConstraintsPerProperty = Array<{
     constraints : Constraints
 }>;
 
-
-export const getConstraints = async <T, V>( cls : ClassConstructor<T>, plain : V ) : Promise<ConstraintsPerProperty> => {
+export const getConstraints = async <T, V>(
+    cls : ClassConstructor<T>,
+    plain : V,
+    parentPath = ''
+) : Promise<ConstraintsPerProperty> => {
+    
     const instance : T = plainToInstance( cls, plain );
     const errors       = await validate( instance as unknown as object );
-    return validationErrorsAsArray( errors );
-}
+    return validationErrorsAsArray( errors, parentPath );
+    
+};
 
 export function validationErrorsAsArray(
     errors : ValidationError[] | ValidationError,
-    parentPath = '',
+    parentPath = ''
 ) : ConstraintsPerProperty {
     if ( !Array.isArray( errors ) ) {
         errors = [ errors ];
@@ -37,7 +42,7 @@ export function validationErrorsAsArray(
     } );
     
     return result;
-}
+};
 
 function formatError( error : ValidationError, parentPath : string ) : ConstraintsPerProperty {
     let result : ConstraintsPerProperty = [];

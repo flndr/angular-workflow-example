@@ -13,11 +13,11 @@ export interface Vorgang {
     // formData
     titel : string;
     genehmigerKuerzel : string;
-    genehmigungAnmerkungen: string;
+    genehmigungAnmerkungen : string;
     beguenstigterKuerzel : string;
     bkz : string;
     standardHardwareAuswahl : StandardHardwareAuswahl;
-    individualBestellungen : Array<IndividualBestellung>;
+    individualBestellungen : Record<string, IndividualBestellung>;
     abholungArt : AbholungArt;
     lieferanschrift : Lieferanschrift | null;
     checkboxAllesGeprueftUndBestaetigt : boolean;

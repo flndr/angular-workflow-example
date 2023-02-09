@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-
+import { Injectable }               from '@angular/core';
 import { VorgangBearbeitenSchritt } from '../model/VorgangBearbeitenSchritt';
 
 @Injectable( {
@@ -33,6 +32,8 @@ export class UrlService {
         [ VorgangBearbeitenSchritt.ABSCHLUSS ]             : 'abschluss',
     };
     
+    static PARAM_INDIVIDUAL_HARDWARE_ID = 'id';
+    
     routeToVorgangBearbeiten( vorgangId : string, schritt ? : VorgangBearbeitenSchritt ) : string {
         return '/' + [
             UrlService.SEITEN_URL.VORGANG_BEARBEITEN,
@@ -41,6 +42,10 @@ export class UrlService {
             ? UrlService.BEARBEITUNG_SCHRITT_URL[ schritt ]
             : UrlService.BEARBEITUNG_SCHRITT_URL[ UrlService.ERSTER_SCHRITT ],
         ].join( '/' );
+    }
+    
+    routeToVorgangBearbeitenIndividualHardware( vorgangId : string, id : string ) : string {
+        return this.routeToVorgangBearbeiten( vorgangId, VorgangBearbeitenSchritt.INDIVIDUAL_BESTELLUNG ) + '/' + id;
     }
     
     routeToVorgangZusammenfassung( vorgangId : string ) : string {

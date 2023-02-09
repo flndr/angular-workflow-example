@@ -3,7 +3,7 @@ import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments 
 @ValidatorConstraint( { name : 'backendBkz', async : false } )
 export class BackendBkzValidator implements ValidatorConstraintInterface {
     validate( possibleBkz : string, args : ValidationArguments ) {
-        console.log( possibleBkz, args );
+        //console.log( possibleBkz, args );
         return possibleBkz.length > 1 && possibleBkz.length < 10; // for async validations you must return a Promise<boolean> here
     }
     

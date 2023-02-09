@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 import { MitarbeiterLadenResponse }      from '@tom/models';
 import { StandardHardwareKategorie }     from '@tom/models';
 import { StandardHardwareArtikel }       from '@tom/models';
@@ -12,7 +14,6 @@ import { ApiUrl }                        from '@tom/models';
 import { Vorgang }                       from '@tom/models';
 import { VorgaengeLadenRequest }         from '@tom/models';
 import { VorgangLadenResponse }          from '@tom/models';
-import { v4 as uuid }                    from 'uuid';
 
 import { Request }  from '../models/Request';
 import { Response } from '../models/Response';
@@ -272,7 +273,14 @@ function neuerVorgang() : Vorgang {
         beguenstigterKuerzel   : '',
         abholungArt            : AbholungArt.KURIER,
         
-        individualBestellungen : [],
+        individualBestellungen : {
+            'dummy' : {
+                titel        : 'asas',
+                bestellungId : '',
+                kosten       : 0,
+                beschreibung : ''
+            }
+        },
         
         standardHardwareAuswahl : {
             laptopArtikelId  : null,

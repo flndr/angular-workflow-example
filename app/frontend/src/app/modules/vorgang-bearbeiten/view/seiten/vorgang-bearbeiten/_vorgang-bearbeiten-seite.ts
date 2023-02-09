@@ -7,10 +7,10 @@ import { Router }      from '@angular/router';
 import { VorgangBearbeitenSchritt } from '../../../../shared/model/VorgangBearbeitenSchritt';
 import { ApiService }               from '../../../../shared/services/api.service';
 import { UrlService }               from '../../../../shared/services/url.service';
-import { FormService }              from '../../../services/form.service';
-import { NavigationService }        from '../../../services/navigation.service';
-import { connectForm }              from '../../../util/connectForm';
-import { mapSchrittAsForm }         from '../../../util/mapSchrittAsForm';
+
+import { FormService }       from '../../../services/form.service';
+import { NavigationService } from '../../../services/navigation.service';
+import { connectForm }       from '../../../util/connectForm';
 
 @Component( {
     template : ''

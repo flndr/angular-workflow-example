@@ -40,16 +40,14 @@ export const connectForm = async (
         } );
     }
     
-    // write values from service into form group
     setFormGroupValues();
-    
-    // write constraints from service into form group as field errors
     setFormGroupErrors();
     
     formGroup.valueChanges.subscribe( async formValues => {
         await formService.updateFormValues( formValues );
         setFormGroupErrors();
     } );
+    
     formService.constraints$.subscribe( () => {
         setFormGroupErrors();
     } );

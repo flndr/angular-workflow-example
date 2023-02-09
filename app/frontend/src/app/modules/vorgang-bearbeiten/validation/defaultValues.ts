@@ -8,7 +8,7 @@ export const defaultValues : VorgangBearbeitenForm = {
     checkboxAllesGeprueftUndBestaetigt : false,
     genehmigerKuerzel                  : '',
     genehmigungAnmerkungen             : '',
-    individualBestellungen             : [],
+    individualBestellungen             : {},
     standardHardwareAuswahl            : {
         headsetArtikelId : null,
         tascheArtikelId  : null,
