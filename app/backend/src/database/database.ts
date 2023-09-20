@@ -12,7 +12,7 @@ const entities = [
 
 export const Database = new DataSource( {
     entities,
-    type        : "sqlite",
+    type        : "better-sqlite3",
     database    : "db.sqlite",
     logging     : false,
     synchronize : true,
